@@ -6,13 +6,15 @@
 #    By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/03 16:54:48 by cbretagn          #+#    #+#              #
-#    Updated: 2019/05/16 14:35:22 by cbretagn         ###   ########.fr        #
+#    Updated: 2019/05/19 17:59:41 by cbretagn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ft_ls
 
-SRC			=
+SRC			= parsing.c\
+			  get_stats.c\
+			  main.c
 
 OBJS		:= $(SRC:.c=.o)
 

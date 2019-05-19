@@ -1,0 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_stats.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
+/*   Updated: 2019/05/19 18:29:24 by cbretagn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "./libft/libft.h"
+#include "ft_ls.h"
+#include <time.h>
+
+void		fill_type(t_file *to_fill, mode_t mode)
+{
+	if (mode & S_IFREG)
+		to_fill->type = '-';
+	else if (mode & S_IFDIR)
+		to_fill->type = 'd';
+	else if (mode & S_IFLNK)
+		to_fill->type = 'l';
+	else if (mode & S_IFIFO)
+		to_fill->type = 'p';
+	else if (mode & S_IFSOCK)
+		to_fill->type = 's';
+	else if (mode & S_IFCHR)
+		to_fill->type = 'c';
+	else if (mode & S_IFBLK)
+		to_fill->type = 'b';
+}
+
+void		fill_struct(t_file *to_fill, struct stat buffer)
+{
+	ft_strcpy(to_fill->date, ctime(&buffer.st_mtime));
+	fill_type(to_fill, buffer.st_mode);
+}
