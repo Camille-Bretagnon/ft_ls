@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 18:29:19 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/19 19:44:03 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <time.h>
 
 # define MAX_FLAGS 6
 
+typedef struct	s_
 typedef struct	s_file
 {
 	char		*file_name;
 	char		type;
-	char		*date;
+	time_t		date;
 	char		*long_display;
 }				t_file;
 

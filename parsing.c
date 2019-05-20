@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 17:31:07 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/19 19:31:54 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int			get_flags(char **argv, char *flags)
 }
 
 t_file		*init_file_struct(char *name) //TODO rajouter long display dans malloc, prend en 
-											// param flags
+											// param flags, car rajout uniquement si l 
+											// rajouter gestion flags inexistants ex K
 {
 	t_file	*ret;
 
@@ -48,9 +49,16 @@ t_file		*init_file_struct(char *name) //TODO rajouter long display dans malloc, 
 		return (NULL);
 	if (!(ret->file_name = ft_strdup(name)))
 		return (NULL);
-	if (!(ret->date = ft_strnew(26)))
-		return (NULL);
 	return (ret);
+}
+
+void		delete_file_struct(t_file *del)
+{
+	free(del->file_name);
+	del->file_name = NULL;
+	//free long display if necessary, flags parameters
+	free(del);
+	del = NULL;
 }
 
 t_file		**get_paths(char **argv, int argc, int i)

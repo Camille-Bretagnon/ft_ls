@@ -6,13 +6,12 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 18:29:24 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/19 19:15:36 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
-#include <time.h>
 
 void		fill_type(t_file *to_fill, mode_t mode)
 {
@@ -34,6 +33,6 @@ void		fill_type(t_file *to_fill, mode_t mode)
 
 void		fill_struct(t_file *to_fill, struct stat buffer)
 {
-	ft_strcpy(to_fill->date, ctime(&buffer.st_mtime));
+	to_fill->date = buffer.st_mtime;
 	fill_type(to_fill, buffer.st_mode);
 }
