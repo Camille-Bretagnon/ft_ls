@@ -6,13 +6,14 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 19:31:54 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/24 14:35:51 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 int			get_flags(char **argv, char *flags)
 {
@@ -31,6 +32,8 @@ int			get_flags(char **argv, char *flags)
 		j = 0;
 		while (argv[ret][++j])
 		{
+			if (!(ft_strchr("larRtFdiuhn", argv[ret][j]))) //verif les options
+				write(1, "ls: illegal options\nusage: ls [verfi options] [file ...]", 56); //ajouter un return -1, recuperer l'erreur free etc
 			if (!(ft_strchr(flags, argv[ret][j])))
 				flags[++i] = argv[ret][j];
 		}

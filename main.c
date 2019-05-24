@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 19:44:01 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/24 15:52:08 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		main(int argc, char **argv)
 		ft_putstr(ctime(&paths[j]->date));
 		ft_putchar(paths[j]->type);
 		ft_putchar('\n');
+		open_directory(paths[j]->file_name, flags);
 	}
 	//sort paths depending on flags, cpy directory in separate array
 	//

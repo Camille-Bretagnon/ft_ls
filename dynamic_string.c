@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:03:21 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/20 17:08:30 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:33:27 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_dstring			*push_str(t_dstring *dest, char *src)
 {
 	t_dstring		*temp;
 	int				new_cap;
-	int				len;
+	unsigned int	len;
 
 	len = ft_strlen(src);
 	if (len <= dest->capacity - dest->size)

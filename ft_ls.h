@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 19:44:03 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/24 14:39:49 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,25 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
+#include "dynamic.h"
 
 # define MAX_FLAGS 6
 
-typedef struct	s_
 typedef struct	s_file
 {
 	char		*file_name;
 	char		type;
 	time_t		date;
-	char		*long_display;
+	char		*long_display; //utiliser d_string pour push dessus
 }				t_file;
 
 int				get_flags(char **argv, char *flags);
 t_file			**get_paths(char **argv, int argc, int i);
 t_file			*init_file_struct(char *name);
+void			delete_file_struct(t_file *del);
 
 void			fill_struct(t_file *to_fill, struct stat buffer);
+
+int				open_directory(char *directory, char *flags);
+
 # endif

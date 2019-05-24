@@ -6,14 +6,14 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/19 19:15:36 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/24 15:21:38 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
 
-void		fill_type(t_file *to_fill, mode_t mode)
+static void		fill_type(t_file *to_fill, mode_t mode)
 {
 	if (mode & S_IFREG)
 		to_fill->type = '-';
@@ -31,7 +31,13 @@ void		fill_type(t_file *to_fill, mode_t mode)
 		to_fill->type = 'b';
 }
 
-void		fill_struct(t_file *to_fill, struct stat buffer)
+//ls long display
+//
+//perm = 10 + 1@+etc + 1 esp + 3 (nb links) + 2esp +
+// 8 (user name) +  2 espa + 10 (group name) + 2 esp + taille octet (?) + 1 esp
+// + mois (3) + 1 esp + jour (2) + 1 esp + date ou annee (5) + 1 esp + name (max 256)
+//
+void			fill_struct(t_file *to_fill, struct stat buffer)
 {
 	to_fill->date = buffer.st_mtime;
 	fill_type(to_fill, buffer.st_mode);

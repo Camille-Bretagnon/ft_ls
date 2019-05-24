@@ -1,50 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dynamic_arrays.c                                   :+:      :+:    :+:   */
+/*   dynamic_array_strs.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/20 15:12:35 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/24 15:21:52 by cbretagn         ###   ########.fr       */
+/*   Created: 2019/05/24 13:34:07 by cbretagn          #+#    #+#             */
+/*   Updated: 2019/05/24 15:50:40 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
-#include <stdlib.h>
 #include "dynamic.h"
+#include <stdlib.h>
+#include "ft_ls.h"
 
-t_darray				*create_darray(unsigned int cap)
+t_array_str	*create_array_str(unsigned int cap)
 {
-	t_darray		*ret;
+	t_array_str		*ret;
 	unsigned int	i;
 
-	if (!(ret = (t_darray *)malloc(sizeof(t_darray))))
+	i = 0;
+	if (!(ret = (t_array_str *)malloc(sizeof(t_array_str))))
 		return (NULL);
 	ret->size = 0;
 	ret->capacity = cap;
-	if (!(ret->array = (t_dstring **)malloc(sizeof(t_dstring *) * cap)))
+	if (!(ret->array = (char **)malloc(sizeof(char *) * cap)))
 		return (NULL);
-	i = 0;
 	while (i < cap)
 		ret->array[i++] = NULL;
 	return (ret);
 }
 
-void					delete_darray(t_darray *del)
+void			delete_array_str(t_array_str *del)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (i < del->size)
-		delete_dstring(del->array[i++]);
+		ft_strdel(&del->array[i++]);
 	free(del->array);
 	del->array = NULL;
 	free(del);
 	del = NULL;
 }
 
-int						cpy_darray(t_darray *dest, t_darray *src)
+int				cpy_array_str(t_array_str *dest, t_array_str *src)
 {
 	unsigned int	i;
 
@@ -53,8 +54,7 @@ int						cpy_darray(t_darray *dest, t_darray *src)
 	i = 0;
 	while (i < src->size)
 	{
-		if (!(dest->array[i] = 
-					create_dstring(src->array[i]->capacity, src->array[i]->str)))
+		if (!(dest->array[i] = ft_strdup(src->array[i])))
 			return (-1);
 		i++;
 	}
@@ -62,9 +62,9 @@ int						cpy_darray(t_darray *dest, t_darray *src)
 	return (1);
 }
 
-t_darray				*push_dstr(t_darray *dest, t_dstring *src)
+t_array_str		*push_str_on_array(t_array_str *dest, char *src)
 {
-	t_darray	*temp;
+	t_array_str	*temp;
 
 	if (dest->capacity - dest->size > 0)
 	{
@@ -73,11 +73,11 @@ t_darray				*push_dstr(t_darray *dest, t_dstring *src)
 		return (dest);
 	}
 	temp = dest;
-	dest = create_darray(temp->capacity * 2);
-	if (!(cpy_darray(dest, temp)))
+	dest = create_array_str(temp->capacity * 2);
+	if (!(cpy_array_str(dest, temp)))
 		return (NULL);
 	dest->array[dest->size] = src;
 	dest->size += 1;
-	delete_darray(temp);
+	delete_array_str(temp);
 	return (dest);
 }

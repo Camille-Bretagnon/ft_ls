@@ -6,7 +6,7 @@
 #    By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/03 16:54:48 by cbretagn          #+#    #+#              #
-#    Updated: 2019/05/19 17:59:41 by cbretagn         ###   ########.fr        #
+#    Updated: 2019/05/24 15:50:16 by cbretagn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,12 @@ NAME		= ft_ls
 
 SRC			= parsing.c\
 			  get_stats.c\
+			  dynamic_string.c\
+			  dynamic_arrays.c\
+			  dynamic_file_arrays.c\
+			  debug_print.c\
+			  open_directory.c\
+			  basic_string_arrays.c\
 			  main.c
 
 OBJS		:= $(SRC:.c=.o)
