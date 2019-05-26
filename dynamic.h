@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/24 16:02:55 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/26 14:54:38 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define BASE_CAP 	256
 # define BASE_ARRAY	20
+# define BUFFER_SIZE 100
 
 #include "ft_ls.h"
 
@@ -68,4 +69,5 @@ t_array_str			*push_str_on_array(t_array_str *dest, char *src);
 void				print_file_array(t_file_array *files);
 void				print_array_str(t_array_str *directories);
 
+void				write_buffer(t_file_array *files, char *flags);
 #endif

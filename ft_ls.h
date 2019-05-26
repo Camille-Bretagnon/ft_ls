@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/24 14:39:49 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/26 14:52:15 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct	s_file
 	char		*file_name;
 	char		type;
 	time_t		date;
-	char		*long_display; //utiliser d_string pour push dessus
+	char		*long_display;
 }				t_file;
 
 int				get_flags(char **argv, char *flags);
@@ -36,5 +36,4 @@ void			delete_file_struct(t_file *del);
 void			fill_struct(t_file *to_fill, struct stat buffer);
 
 int				open_directory(char *directory, char *flags);
-
 # endif

@@ -6,7 +6,7 @@
 #    By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/03 16:54:48 by cbretagn          #+#    #+#              #
-#    Updated: 2019/05/24 15:50:16 by cbretagn         ###   ########.fr        #
+#    Updated: 2019/05/26 14:53:38 by cbretagn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC			= parsing.c\
 			  debug_print.c\
 			  open_directory.c\
 			  basic_string_arrays.c\
+			  buffer_fill.c\
 			  main.c
 
 OBJS		:= $(SRC:.c=.o)

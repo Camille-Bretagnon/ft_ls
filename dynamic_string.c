@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:03:21 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/20 17:33:27 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/26 15:22:07 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void				delete_dstring(t_dstring *del)
 	del = NULL;
 }
 
+#include <stdio.h>
+
 t_dstring			*push_str(t_dstring *dest, char *src)
 {
 	t_dstring		*temp;
@@ -46,10 +48,11 @@ t_dstring			*push_str(t_dstring *dest, char *src)
 	unsigned int	len;
 
 	len = ft_strlen(src);
-	if (len <= dest->capacity - dest->size)
+	if (len < dest->capacity - dest->size)
 	{
 		ft_strcpy((dest->str + dest->size), src);
 		dest->size += len;
+		//printf("src is %s dest is %s len is %d size is %u\n", src, dest->str, len, dest->size);
 	}
 	else
 	{

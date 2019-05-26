@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/24 16:02:46 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/05/26 15:08:17 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,30 @@ static void			fill_type(t_file *to_fill, char mode)
 		to_fill->type = '-';
 }
 
-static int			push_directory(t_array_str *rec_dir, char *path, char *file)
+static t_array_str	*push_directory(t_array_str *rec_dir, char *path, char *file)
 {
 	char	*str;
 
 	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(path) + ft_strlen(file) + 2))))
-		return (-1);
+		return (NULL);
 	ft_strcpy(str, path);
 	ft_strcat(str, "/");
 	ft_strcat(str, file);
-	push_str_on_array(rec_dir, str);
-	return(1);
+	rec_dir = push_str_on_array(rec_dir, str);
+	return(rec_dir);
+}
+
+static t_file_array	*read_directory(struct dirent *buffer, t_file_array *files)
+{
+	files = push_file(files, init_file_struct(buffer->d_name));
+	fill_type(files->array[files->size - 1], buffer->d_type);
+	return (files);
+}
+
+static int			print_error(void)
+{
+	perror("ls :");
+	return (-1);
 }
 
 int					open_directory(char *directory, char *flags)
@@ -53,37 +66,30 @@ int					open_directory(char *directory, char *flags)
 	struct dirent	*buffer;
 	t_file_array	*files;
 	t_array_str		*rec_dir;
+	unsigned int	i;
 
-	if (!(dir = opendir(directory)) || !(files = create_file_array(BASE_ARRAY)))
-	{
-		perror("ls :");
+	if (!(dir = opendir(directory)))
+		return (print_error());
+	if (!(files = create_file_array(BASE_ARRAY)))
 		return (-1);
-	}
 	rec_dir = ft_strchr(flags, 'R') ? create_array_str(BASE_ARRAY) : NULL;
 	while ((buffer = readdir(dir)))
 	{
 		if (rec_dir != NULL && buffer->d_type == DT_DIR && buffer->d_name[0] != '.')
-			push_directory(rec_dir, directory, buffer->d_name);
-		files = push_file(files, init_file_struct(buffer->d_name));
-		fill_type(files->array[files->size - 1], buffer->d_type);
+			rec_dir = push_directory(rec_dir, directory, buffer->d_name);
+		files = read_directory(buffer, files);
 	}
-	print_file_array(files);
-	print_array_str(rec_dir);
+	//sort array file
+	//fill buffer and print
+	//sort array directories
+	/*print_file_array(files);
+	print_array_str(rec_dir);*/
+	write_buffer(files, flags);
+	i = 0;
+	if (rec_dir != NULL)
+	{
+		while (i < rec_dir->size)
+			open_directory(rec_dir->array[i++], flags);
+	}
 	return (0);
 }
-
-	//opendir directory
-	//
-	//while readdir
-	//		stat
-	//		stocker infos dans struct (donc tableau de struct a allouer (tableau dyn ?))
-	//		if dir copier nom + path_directory dans tableau char *
-	//
-	//write long line or else
-	//open dir sur each nom in tab
-	//
-	//
-	//tableau dyn struct
-	//OU tableau dyn chaine dyn avec stockage nom ou long line
-	//
-	//variable stock total lien
