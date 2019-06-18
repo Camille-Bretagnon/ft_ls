@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/26 14:05:24 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:01:39 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int		main(int argc, char **argv)
 	j = -1;//remove
 	while (paths[++j])
 	{
-		ft_putendl(paths[j]->file_name);
-		ft_putstr(ctime(&paths[j]->date));
-		ft_putchar(paths[j]->type);
-		ft_putchar('\n');
+		//ft_putendl(paths[j]->file_name);
+		//ft_putstr(ctime(&paths[j]->date));
+		//ft_putchar(paths[j]->type);
+		//ft_putchar('\n');
 		open_directory(paths[j]->file_name, flags);
 	}
 	//sort paths depending on flags, cpy directory in separate array

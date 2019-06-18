@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/26 14:52:15 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:30:48 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,6 @@ void			delete_file_struct(t_file *del);
 void			fill_struct(t_file *to_fill, struct stat buffer);
 
 int				open_directory(char *directory, char *flags);
+
+void			insertion_sort(t_file **array, int size);
 # endif

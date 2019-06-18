@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/26 15:22:05 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:43:11 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static t_dstring	*color_fill(t_file_array *files,
 	return (buffer);
 }
 
-#include <stdio.h>
 static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
 {
 	unsigned int	i;
@@ -46,7 +45,6 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
 	while (i < files->size)
 	{
 		buffer = color_fill(files, buffer, i);
-	//	printf("%s\n", files->array[i]->file_name);
 		buffer = push_str(buffer, files->array[i]->file_name);
 		buffer = push_str(buffer, "\n");
 		i++;
