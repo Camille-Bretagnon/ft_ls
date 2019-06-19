@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/18 17:43:11 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/06/19 15:17:53 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static t_dstring	*color_fill(t_file_array *files,
 	else if (files->array[i]->type == 'b')
 		buffer = push_str(buffer, GREEN);
 	else if (files->array[i]->type == 'd')
-		buffer = push_str(buffer, YELLOW);
-	else if (files->array[i]->type == 'l')
 		buffer = push_str(buffer, BLUE);
+	else if (files->array[i]->type == 'l')
+		buffer = push_str(buffer, YELLOW);
 	else if (files->array[i]->type == 's')
 		buffer = push_str(buffer, PURPLE);
 	else if (files->array[i]->type == 'p')
@@ -56,7 +56,11 @@ void				write_buffer(t_file_array *files, char *flags)
 {
 	t_dstring	*buffer;
 
-	(void)flags;
+	if (ft_strchr(flags, 'l'))
+	{
+		write_long_buffer(files, flags);
+		return ;
+	}
 	if (!(buffer = create_dstring(2000, "")))
 		return ;
 	//if flag l call function fill longdisplay

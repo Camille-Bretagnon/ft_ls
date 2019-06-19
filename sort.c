@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/18 18:01:33 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/06/19 13:43:38 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,25 @@
 
 //sort timestamp (quicksort ?)
 
-void		insertion_sort(t_file **array, int size)
+static void		swap(t_file **array, int i, int j)
+{
+	t_file		*temp;
+
+	temp = array[i];
+	array[i] = array[j];
+	array[j] = temp;
+}
+
+void			basic_sort(t_file **array, int size)
 {
 	int	i;
 	int	j;
-	t_file			*temp;
 
 	i = 0;
 	while (++i < size)
 	{
-		temp = array[i];
-		j = i;
-		while (--j >= 0)
-		{
-			if (ft_strcmp(temp->file_name, array[j]->file_name) > 0)
-				break ;
-			array[j + 1] = array[j];
-		}
-		array[j] = temp;
+		j = i + 1;
+		while (--j > 0 && (ft_strcmp(array[j]->file_name, array[j - 1]->file_name) < 0))
+			swap(array, j, j - 1);
 	}
 }

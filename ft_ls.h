@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/18 17:30:48 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/06/19 15:09:27 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 #include "dynamic.h"
 
 # define MAX_FLAGS 6
+
+# define LINKS 5
+# define USER 10
+# define GROUP 12
+# define BLOCKS 7
+# define FULL_PERM "rwx"
 
 typedef struct	s_file
 {
@@ -37,5 +43,7 @@ void			fill_struct(t_file *to_fill, struct stat buffer);
 
 int				open_directory(char *directory, char *flags);
 
-void			insertion_sort(t_file **array, int size);
+void			basic_sort(t_file **array, int size);
+
+void			write_long_buffer(t_file_array *files, char *flags);
 # endif
