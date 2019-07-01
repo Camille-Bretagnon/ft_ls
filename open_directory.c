@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/19 13:42:16 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/01 14:21:11 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int					open_directory(char *directory, char *flags)
 	//sort array directories
 	/*print_file_array(files);
 	print_array_str(rec_dir);*/
-	basic_sort(files->array, (int)files->size);
+	sort(files->array, files->size, flags);
 	write_buffer(files, flags);
 	i = 0;
 	if (rec_dir != NULL)

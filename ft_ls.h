@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/19 15:09:27 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/01 14:21:14 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@
 
 # define MAX_FLAGS 6
 
+# define T_MODIFIED 0
+# define T_LASTACCESS 1
+
 # define LINKS 5
-# define USER 10
-# define GROUP 12
 # define BLOCKS 7
 # define FULL_PERM "rwx"
 
@@ -30,9 +31,22 @@ typedef struct	s_file
 {
 	char		*file_name;
 	char		type;
+	mode_t		perm;
+	nlink_t		links;
+	uid_t		uid;
+	gid_t		gid;
+	char		*username;
+	char		*groupname;
 	time_t		date;
-	char		*long_display;
 }				t_file;
+
+typedef	struct	s_padding
+{
+	unsigned int 	links;
+	unsigned int	username;
+	unsigned int	groupname;
+	unsigned long	nb_blocks;
+}				t_padding;
 
 int				get_flags(char **argv, char *flags);
 t_file			**get_paths(char **argv, int argc, int i);
@@ -43,7 +57,7 @@ void			fill_struct(t_file *to_fill, struct stat buffer);
 
 int				open_directory(char *directory, char *flags);
 
-void			basic_sort(t_file **array, int size);
+t_padding		*sort(t_file **array, int size, char *flags);
+void			init_padding(t_paddin *padding);
 
-void			write_long_buffer(t_file_array *files, char *flags);
 # endif

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/19 15:17:51 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/01 13:16:31 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,5 @@ void				print_file_array(t_file_array *files);
 void				print_array_str(t_array_str *directories);
 
 void				write_buffer(t_file_array *files, char *flags);
+void				write_long_buffer(t_file_array *files, char *flags);
 #endif
