@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/01 13:16:31 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:51:16 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ typedef struct		s_array_str
 	char			**array;
 }					t_array_str;
 
+typedef struct		s_padding
+{
+	unsigned int	links;
+	unsigned int	user;
+	unsigned int	group;
+	unsigned long	nb_blocks;
+	unsigned int	max_size;
+}					t_padding;
+
 t_dstring			*create_dstring(unsigned int cap, char *str);
 t_dstring			*push_str(t_dstring *dest, char *src);
 void				delete_dstring(t_dstring *del);
@@ -71,4 +80,7 @@ void				print_array_str(t_array_str *directories);
 
 void				write_buffer(t_file_array *files, char *flags);
 void				write_long_buffer(t_file_array *files, char *flags);
+
+t_file_array		*fill_stats(t_file_array *files, char flag, t_padding *padding);
+t_padding			*init_padding(void);
 #endif

@@ -6,7 +6,7 @@
 #    By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/03 16:54:48 by cbretagn          #+#    #+#              #
-#    Updated: 2019/06/19 14:44:31 by cbretagn         ###   ########.fr        #
+#    Updated: 2019/07/03 13:07:38 by cbretagn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC			= parsing.c\
 			  buffer_fill.c\
 			  sort.c\
 			  long_buffer.c\
+			  utility.c\
 			  main.c
 
 OBJS		:= $(SRC:.c=.o)

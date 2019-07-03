@@ -6,25 +6,23 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/01 14:21:07 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:50:51 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "./libft/libft.h"
-#include <pwd.h>
-#include <grp.h>
 
-static void		swap(t_file **array, int i, int j)
+/*static void		swap(t_file **array, int i, int j)
 {
 	t_file		*temp;
 
 	temp = array[i];
 	array[i] = array[j];
 	array[j] = temp;
-}
+}*/
 
-static void		basic_sort(t_file **array, int size)
+/*static void		basic_sort(t_file **array, int size)
 {
 	int	i;
 	int	j;
@@ -36,33 +34,55 @@ static void		basic_sort(t_file **array, int size)
 		while (--j > 0 && (ft_strcmp(array[j]->file_name, array[j - 1]->file_name) < 0))
 			swap(array, j, j - 1);
 	}
-}
+}*/
+static unsigned int		nb_len(unsigned int nb)
+{
+	unsigned int		ret;
 
-static t_file_array		**fill_stats(t_file **array, unsigned int size, char flag, t_padding *padding)
+	ret = 0;
+	while (nb != 0)
+	{
+		nb /= 10;
+		ret++;
+	}
+	return (ret);
+}
+#include <stdio.h>
+t_file_array			*fill_stats(t_file_array *files, char flag, t_padding *padding)
 {
 	unsigned int	i;
 	struct stat		buffer;
 
 	i = 0;
-	while (i < size)
+	while (i < files->size)
 	{
-		stat(array[i]->file_name, &buffer);
+		stat(files->array[i]->file_name, &buffer);
 		padding->nb_blocks += buffer.st_blocks;
-		perm = buffer.st_mode;
-		links = buffer.st_nlink;
-		uid = buffer.st_uid;
-		gid = buffer.st_gid;
-		if (flag == 0)
-			date = buffer.st_mtime;
-		else
-			date = buffer.statime;
+		padding->links = padding->links < nb_len(buffer.st_nlink) ?
+			nb_len(buffer.st_nlink) : padding->links;
+		padding->max_size = padding->max_size < nb_len(buffer.st_size) ?
+			nb_len(buffer.st_size) : padding->max_size;
+		files->array[i]->perm = buffer.st_mode;
+		files->array[i]->links = buffer.st_nlink;
+		files->array[i]->uid = buffer.st_uid;
+		files->array[i]->gid = buffer.st_gid;
+		files->array[i]->date = flag == 0 ? buffer.st_mtime : buffer.st_atime;
+		files->array[i]->size = buffer.st_size;
+		//printf("size is %u\n", files->array[i]->size);
+		files->array[i]->user = get_username(files->array[i]->uid);
+		files->array[i]->group = get_groupname(files->array[i]->gid);
+		padding->user = padding->user < ft_strlen(files->array[i]->user) ? 
+			ft_strlen(files->array[i]->user) : padding->user;
+		padding->group = padding->group < ft_strlen(files->array[i]->group) ? 
+			ft_strlen(files->array[i]->group) : padding->group;
+		i++;
 	}
-
+	return (files);
 }
 
 //si l actif u ou t sert juste a savoir quel temps afficher, u seul rien, tu sort by last access
 
-t_padding			*sort(t_file **array, unsigned int size, char *flags)
+/*t_padding			*sort(t_file **array, unsigned int size, char *flags)
 {
 	t_padding		*ret;
 
@@ -87,4 +107,4 @@ t_padding			*sort(t_file **array, unsigned int size, char *flags)
 	else
 		basic_sort
 	return (ret);
-}
+}*/

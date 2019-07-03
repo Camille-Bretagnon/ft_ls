@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/01 14:21:13 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:46:09 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,50 +37,63 @@ static t_dstring		*push_w_padding
 	return (dest);
 }
 
-static t_dstring		*push_username(t_dstring *dest, uid_t uid)
-{
-	struct passwd		*get_names;
-
-	get_names = getpwuid(uid);
-	dest = push_w_padding(dest, get_names->pw_name, USER);
-	return (dest);
-}
-
-static t_dstring		*push_groupname(t_dstring *dest, gid_t gid)
-{
-	struct group		*get_names;
-
-	get_names = getgrgid(gid);
-	dest = push_w_padding(dest, get_names->gr_name, GROUP);
-	return (dest);
-}
-
 #include <stdio.h>
+t_dstring				*push_fileinfos(t_file *file, t_dstring *to_print, t_padding *padding)
+{
+	//perm
+	to_print = push_w_padding(to_print, ft_itoa(file->links), padding->links);
+	to_print = push_str(to_print, " ");
+	to_print = push_w_padding(to_print, file->user, padding->user);
+	to_print = push_str(to_print, " ");
+	to_print = push_w_padding(to_print, file->group, padding->group);
+	to_print = push_str(to_print, " ");
+	to_print = push_str(to_print, " ");
+	//date
+	to_print = push_w_padding(to_print, ft_itoa(file->size), padding->max_size);
+	to_print = push_str(to_print, " ");
+	to_print = push_str(to_print, file->file_name);
+	to_print = push_str(to_print, "\n");
+	return (to_print);
+}
+
+/*void					writefile(t_file *file)
+{
+	ft_putstr(ft_itoa(file->links));
+	ft_putstr(" ");
+	ft_putstr(file->user);
+	ft_putstr(" ");
+	ft_putstr(file->group);
+	ft_putstr(" ");
+	ft_putstr(ft_itoa(file->size));
+	ft_putstr(" ");
+	ft_putstr(file->file_name);
+	ft_putstr("\n");
+}*/
 
 void					write_long_buffer(t_file_array *files, char *flags)
 {
-	unsigned int		nb_blocks;
 	unsigned int		i;
-	struct stat			buffer;
 	t_dstring			*to_print;
+	t_padding			*padding;
 
 	(void)flags;
+	if (!(padding = init_padding()))
+		return ;//perror
 	if (!(to_print = create_dstring(BUFFER_SIZE, "")))
-		return ;
+		return ;//perror
+	if (ft_strchr(flags, 'u'))
+		files = fill_stats(files, T_LASTACCESS, padding);
+	else
+		files = fill_stats(files, T_MODIFIED, padding);
+	to_print = push_str(to_print, "total ");
+	to_print = push_str(to_print, ft_itoa(padding->nb_blocks));
+	to_print = push_str(to_print, "\n");
+	printf("max size %d\n", padding->max_size);
 	i = 0;
-	nb_blocks = 0;
 	while (i < files->size)
 	{
-		stat(files->array[i]->file_name, &buffer);
-		nb_blocks += buffer.st_blocks;
-		//push perm
-		to_print = push_w_padding(to_print, ft_itoa(buffer.st_nlink), LINKS);
-		to_print = push_username(to_print, buffer.st_uid);
-		to_print = push_groupname(to_print, buffer.st_gid);
-		//specific fun blocks
-		//specific fun time
-		to_print = push_str(to_print, files->array[i]->file_name);
-		to_print = push_str(to_print, "\n");
+		to_print = push_fileinfos(files->array[i], to_print, padding);
+		//writefile(files->array[i]);
 		i++;
 	}
 	write(1, to_print->str, to_print->size - 1);

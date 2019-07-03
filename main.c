@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/01 13:11:57 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:30:22 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		main(int argc, char **argv)
 
 	flags = ft_strnew(MAX_FLAGS);
 	i = get_flags(argv, flags);
-	ft_putendl(flags); //remove
+	//ft_putendl(flags); //remove
 	paths = get_paths(argv, argc, i);
 	j = -1;
 	while (paths[++j])
