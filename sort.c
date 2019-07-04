@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/03 14:50:51 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:56:32 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static unsigned int		nb_len(unsigned int nb)
 	}
 	return (ret);
 }
-#include <stdio.h>
+
 t_file_array			*fill_stats(t_file_array *files, char flag, t_padding *padding)
 {
 	unsigned int	i;
@@ -68,7 +68,6 @@ t_file_array			*fill_stats(t_file_array *files, char flag, t_padding *padding)
 		files->array[i]->gid = buffer.st_gid;
 		files->array[i]->date = flag == 0 ? buffer.st_mtime : buffer.st_atime;
 		files->array[i]->size = buffer.st_size;
-		//printf("size is %u\n", files->array[i]->size);
 		files->array[i]->user = get_username(files->array[i]->uid);
 		files->array[i]->group = get_groupname(files->array[i]->gid);
 		padding->user = padding->user < ft_strlen(files->array[i]->user) ? 

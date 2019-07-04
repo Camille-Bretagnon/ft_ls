@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/05/24 14:35:51 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:15:15 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,31 @@ t_file		*init_file_struct(char *name) //TODO rajouter long display dans malloc, 
 
 	if (!(ret = (t_file *)malloc(sizeof(t_file))))
 		return (NULL);
+	if (!(ret->type = ft_strnew(1)))
+		return (NULL);
 	if (!(ret->file_name = ft_strdup(name)))
 		return (NULL);
+	ret->user = NULL;
+	ret->group = NULL;
 	return (ret);
 }
 
 void		delete_file_struct(t_file *del)
 {
+	free(del->type);
+	del->type = NULL;
 	free(del->file_name);
 	del->file_name = NULL;
-	//free long display if necessary, flags parameters
+	if (del->user)
+	{
+		free(del->user);
+		del->user = NULL;
+	}
+	if (del->group)
+	{
+		free(del->group);
+		del->group = NULL;
+	}
 	free(del);
 	del = NULL;
 }

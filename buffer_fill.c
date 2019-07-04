@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/03 14:40:35 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:52:04 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ static t_dstring	*color_fill(t_file_array *files,
 {
 	if (i > files->size)
 		return (NULL);
-	else if (files->array[i]->type == 'c')
+	else if (files->array[i]->type[0] == 'c')
 		buffer = push_str(buffer, RED);
-	else if (files->array[i]->type == 'b')
+	else if (files->array[i]->type[0] == 'b')
 		buffer = push_str(buffer, GREEN);
-	else if (files->array[i]->type == 'd')
+	else if (files->array[i]->type[0] == 'd')
 		buffer = push_str(buffer, BLUE);
-	else if (files->array[i]->type == 'l')
+	else if (files->array[i]->type[0] == 'l')
 		buffer = push_str(buffer, YELLOW);
-	else if (files->array[i]->type == 's')
+	else if (files->array[i]->type[0] == 's')
 		buffer = push_str(buffer, PURPLE);
-	else if (files->array[i]->type == 'p')
+	else if (files->array[i]->type[0] == 'p')
 		buffer = push_str(buffer, CYAN);
 	else
 		buffer = push_str(buffer, WHITE);

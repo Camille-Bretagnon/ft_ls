@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/03 14:49:47 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 18:59:17 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 typedef struct	s_file
 {
-	char		*file_name;
-	char			type;
+	char			*file_name;
+	char			*type;
 	mode_t			perm;
 	nlink_t			links;
 	uid_t			uid;

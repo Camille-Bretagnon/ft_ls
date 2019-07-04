@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:34:07 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/06/18 17:08:56 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:53:30 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				cpy_file_array(t_file_array *dest, t_file_array *src)
 	{
 		if (!(dest->array[i] = init_file_struct(src->array[i]->file_name)))
 			return (-1);
-		dest->array[i]->type = src->array[i]->type;
+		dest->array[i]->type[0] = src->array[i]->type[0];
 		dest->array[i]->date = src->array[i]->date;
 		//rajouter le strcpy du long display
 		i++;

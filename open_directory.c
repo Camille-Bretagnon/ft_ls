@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/03 14:35:26 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:43:45 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 static void			fill_type(t_file *to_fill, char mode)
 {
 	if (mode == DT_DIR)
-		to_fill->type = 'd';
+		to_fill->type[0] = 'd';
 	else if (mode == DT_FIFO)
-		to_fill->type = 'p';
+		to_fill->type[0] = 'p';
 	else if (mode == DT_SOCK)
-		to_fill->type = 's';
+		to_fill->type[0] = 's';
 	else if (mode == DT_CHR)
-		to_fill->type = 'c';
-	else if (to_fill->type == DT_BLK)
-		to_fill->type = 'b';
-	else if (to_fill->type == DT_LNK)
-		to_fill->type = 'l';
+		to_fill->type[0] = 'c';
+	else if (to_fill->type[0] == DT_BLK)
+		to_fill->type[0] = 'b';
+	else if (to_fill->type[0] == DT_LNK)
+		to_fill->type[0] = 'l';
 	else
-		to_fill->type = '-';
+		to_fill->type[0] = '-';
 }
 
 static t_array_str	*push_directory(t_array_str *rec_dir, char *path, char *file)
