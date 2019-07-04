@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 19:11:42 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/04 19:39:30 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,46 +57,58 @@ static t_dstring		*push_permissions(mode_t mode, t_dstring *to_print)
 
 #include <stdio.h>
 
-static t_dstring		*push_time(char *buffer, t_dstring *to_print)
+static char				*timetoa(time_t date)
 {
 	//time_t		now;
-	//char		*buffer;
-	char		*to_push;
+	char		*buffer;
+	char		*ret;
 	int			i;
 
 	i = -1;
-	to_push = ft_strnew(12);
-		//exit(0); //perror
+	if (!(ret = (char *)malloc(sizeof(char) * 13)))
+		exit(0); //perror
 	//time(&now);
+	buffer = ft_strdup(ctime(&date));
 	while (++i < 3)
-		to_push[i] = buffer[4 + i];
-	to_push[i] = ' ';
+		*(ret + i) = *(buffer + 4 + i);
+	*(ret + i) = ' ';
 	while (++i < 6)
-		to_push[i] = buffer[4 + i];
-	to_push[i] = ' ';
+		*(ret + i) = *(buffer + 4 + i);
+	*(ret + i) = ' ';
 	while (++i < 12)
-		to_push[i] = buffer[4 + i];
-	to_print = push_str(to_print, to_push);
-	free(to_push);
-	to_push = NULL;
-	return (to_print);
+		*(ret + i) = *(buffer + 4 + i);
+	*(ret + i) = '\0';
+	free(buffer);
+	buffer = NULL;
+	return (ret);
 }
 	
 static t_dstring		*push_fileinfos(t_file *file, t_dstring *to_print, t_padding *padding)
 {
+	char		*temp;
+
 	to_print = push_str(to_print, file->type);
 	to_print = push_permissions(file->perm, to_print);
 	to_print = push_str(to_print, " ");
-	to_print = push_w_padding(to_print, ft_itoa(file->links), padding->links);
+	temp = ft_itoa(file->links);
+	to_print = push_w_padding(to_print, temp, padding->links);
+	free(temp);
+	temp = NULL;
 	to_print = push_str(to_print, " ");
 	to_print = push_w_padding(to_print, file->user, padding->user);
 	to_print = push_str(to_print, " ");
 	to_print = push_w_padding(to_print, file->group, padding->group);
 	to_print = push_str(to_print, " ");
 	to_print = push_str(to_print, " ");
-	to_print = push_w_padding(to_print, ft_itoa(file->size), padding->max_size);
+	temp = ft_itoa(file->size);
+	to_print = push_w_padding(to_print, temp, padding->max_size);
+	free(temp);
+	temp = NULL;
 	to_print = push_str(to_print, " ");
-	to_print = push_time(ft_strdup(ctime(&file->date)), to_print);
+	temp = timetoa(file->date);
+	to_print = push_str(to_print, temp);
+	free(temp);
+	temp = NULL;
 	to_print = push_str(to_print, " ");
 	to_print = push_str(to_print, file->file_name);
 	to_print = push_str(to_print, "\n");
