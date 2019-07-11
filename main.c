@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 16:50:05 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 13:42:53 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int		main(int argc, char **argv)
 
 	flags = ft_strnew(MAX_FLAGS);
 	i = get_flags(argv, flags);
-	//ft_putendl(flags); //remove
 	paths = get_paths(argv, argc, i);
 	j = -1;
 	while (paths[++j])
@@ -31,7 +30,7 @@ int		main(int argc, char **argv)
 		stat(paths[j]->file_name, &buffer);
 		fill_struct(paths[j], buffer);
 	}
-	j = -1;//remove
+	j = -1;
 	while (paths[++j])
 	{
 		//ft_putendl(paths[j]->file_name);
@@ -40,9 +39,5 @@ int		main(int argc, char **argv)
 		//ft_putchar('\n');
 		open_directory(paths[j]->file_name, flags);
 	}
-	//sort paths depending on flags, cpy directory in separate array
-	//
-	//print long display (or not) till reach directory
-	//
-	//for each file (directory) remaining, call open_directory function
+	ft_strdel(&flags);
 }

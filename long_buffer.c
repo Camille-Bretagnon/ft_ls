@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 19:39:30 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 13:43:08 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-
-//use t_dstring && function push_str(t_dstring *, char *)
-//
-//var keep total blocks, write first then buffer
-//
-//permissions nb links user group blocks date hour colortag name {symbol if flag F} /n
 
 static t_dstring		*push_w_padding
 						(t_dstring *dest, char *src, unsigned int size)
@@ -40,12 +34,12 @@ static t_dstring		*push_w_padding
 
 static t_dstring		*push_permissions(mode_t mode, t_dstring *to_print)
 {
-	const char	perm[9] = "rwxrwxrwx";
+	const char	perm[10] = "rwxrwxrwx";
 	char		*buffer;
 	int			i;
 
-	if (!(buffer = ft_strnew(8)))
-		exit(0); //perror
+	if (!(buffer = ft_strnew(9)))
+		malloc_error();
 	i = -1;
 	while (++i < 9)
 		buffer[i] = (mode & (1 << (8 - i))) ? perm[i] : '-';
@@ -55,20 +49,17 @@ static t_dstring		*push_permissions(mode_t mode, t_dstring *to_print)
 	return (to_print);
 }
 
-#include <stdio.h>
-
+//RAJOUTER spec pour time < 6 mois TODO
 static char				*timetoa(time_t date)
 {
-	//time_t		now;
 	char		*buffer;
 	char		*ret;
 	int			i;
 
 	i = -1;
 	if (!(ret = (char *)malloc(sizeof(char) * 13)))
-		exit(0); //perror
-	//time(&now);
-	buffer = ft_strdup(ctime(&date));
+		malloc_error();
+	buffer = ctime(&date);
 	while (++i < 3)
 		*(ret + i) = *(buffer + 4 + i);
 	*(ret + i) = ' ';
@@ -78,8 +69,6 @@ static char				*timetoa(time_t date)
 	while (++i < 12)
 		*(ret + i) = *(buffer + 4 + i);
 	*(ret + i) = '\0';
-	free(buffer);
-	buffer = NULL;
 	return (ret);
 }
 	
@@ -92,8 +81,7 @@ static t_dstring		*push_fileinfos(t_file *file, t_dstring *to_print, t_padding *
 	to_print = push_str(to_print, " ");
 	temp = ft_itoa(file->links);
 	to_print = push_w_padding(to_print, temp, padding->links);
-	free(temp);
-	temp = NULL;
+	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
 	to_print = push_w_padding(to_print, file->user, padding->user);
 	to_print = push_str(to_print, " ");
@@ -102,13 +90,11 @@ static t_dstring		*push_fileinfos(t_file *file, t_dstring *to_print, t_padding *
 	to_print = push_str(to_print, " ");
 	temp = ft_itoa(file->size);
 	to_print = push_w_padding(to_print, temp, padding->max_size);
-	free(temp);
-	temp = NULL;
+	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
 	temp = timetoa(file->date);
 	to_print = push_str(to_print, temp);
-	free(temp);
-	temp = NULL;
+	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
 	to_print = push_str(to_print, file->file_name);
 	to_print = push_str(to_print, "\n");
@@ -123,9 +109,9 @@ void					write_long_buffer(t_file_array *files, char *flags)
 
 	(void)flags;
 	if (!(padding = init_padding()))
-		return ;//perror
+		malloc_error();
 	if (!(to_print = create_dstring(BUFFER_SIZE, "")))
-		return ;//perror
+		malloc_error();
 	if (ft_strchr(flags, 'u'))
 		files = fill_stats(files, T_LASTACCESS, padding);
 	else

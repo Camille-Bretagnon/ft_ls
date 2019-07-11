@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 18:59:17 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 13:19:37 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 
 # define T_MODIFIED 0
 # define T_LASTACCESS 1
-
-# define LINKS 5
-# define BLOCKS 7
-# define FULL_PERM "rwx"
 
 typedef struct	s_file
 {
@@ -55,5 +51,6 @@ int				open_directory(char *directory, char *flags);
 
 char			*get_username(uid_t uid);
 char			*get_groupname(gid_t gid);
+void			malloc_error(void);
 
 # endif

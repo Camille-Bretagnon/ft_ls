@@ -6,13 +6,14 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:13:15 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 18:36:29 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 13:13:33 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "./libft/libft.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 t_padding			*init_padding()
 {
@@ -53,4 +54,10 @@ char				*get_groupname(gid_t gid)
 		return (NULL);
 	ft_strcpy(ret, group->gr_name);
 	return (ret);
+}
+
+void				malloc_error(void)
+{
+	ft_putstr("ls : malloc error error, so sorry :/\n");
+	exit(0);
 }

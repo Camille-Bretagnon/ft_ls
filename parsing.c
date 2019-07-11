@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 17:15:15 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 13:43:04 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			get_flags(char **argv, char *flags)
 		j = 0;
 		while (argv[ret][++j])
 		{
-			if (!(ft_strchr("larRtFdiuhn", argv[ret][j]))) //verif les options
+			if (!(ft_strchr("larRtFnpTu", argv[ret][j]))) //verif les options
 				write(1, "ls: illegal options\nusage: ls [verfi options] [file ...]", 56); //ajouter un return -1, recuperer l'erreur free etc
 			if (!(ft_strchr(flags, argv[ret][j])))
 				flags[++i] = argv[ret][j];
@@ -42,9 +42,7 @@ int			get_flags(char **argv, char *flags)
 	return (ret);
 }
 
-t_file		*init_file_struct(char *name) //TODO rajouter long display dans malloc, prend en 
-											// param flags, car rajout uniquement si l 
-											// rajouter gestion flags inexistants ex K
+t_file		*init_file_struct(char *name)
 {
 	t_file	*ret;
 
@@ -61,20 +59,12 @@ t_file		*init_file_struct(char *name) //TODO rajouter long display dans malloc, 
 
 void		delete_file_struct(t_file *del)
 {
-	free(del->type);
-	del->type = NULL;
-	free(del->file_name);
-	del->file_name = NULL;
+	ft_strdel(&del->type);
+	ft_strdel(&del->file_name);
 	if (del->user)
-	{
-		free(del->user);
-		del->user = NULL;
-	}
+		ft_strdel(&del->user);
 	if (del->group)
-	{
-		free(del->group);
-		del->group = NULL;
-	}
+		ft_strdel(&del->group);
 	free(del);
 	del = NULL;
 }
