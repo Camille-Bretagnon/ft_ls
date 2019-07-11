@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 13:43:08 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:20:33 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@
 #include <unistd.h>
 #include <time.h>
 
-static t_dstring		*push_w_padding
-						(t_dstring *dest, char *src, unsigned int size)
+static t_dstring		*push_total(t_dstring *dest, blkcnt_t total)
 {
-	unsigned int		padding;
-	unsigned int		i;
+	char	*temp;
 
-	padding = size - ft_strlen(src);
-	i = 0;
-	while (++i <= padding)
-		dest = push_str(dest, " ");
-	dest = push_str(dest, src);
+	temp = ft_itoa(total);//blck is int
+	dest = push_str(dest, "total ");
+	dest = push_str(dest, temp);
+	dest = push_str(dest, "\n");
+	ft_strdel(&temp);
 	return (dest);
 }
 
@@ -101,24 +99,50 @@ static t_dstring		*push_fileinfos(t_file *file, t_dstring *to_print, t_padding *
 	return (to_print);
 }
 
-void					write_long_buffer(t_file_array *files, char *flags)
+void					write_paths_infos(t_file **paths, char *flags)
+{
+	t_dstring			*to_print;
+	t_padding			*padding;
+	int					i;
+
+	i = -1;
+	if (!(padding = init_padding()) || !(to_print = create_dstring(BUFFER_SIZE, "")))
+		malloc_error();
+	while (paths[++i] && ft_strchr(flags, 'l'))
+	{
+		if (paths[i]->type[0] != 'd')
+			paths[i] = ft_strchr(flags, 'u') ? 
+				fill_file_stats(paths[i], T_LASTACCESS, padding) :
+				fill_file_stats(paths[i], T_MODIFIED, padding);
+	}
+	i = -1;
+	while (paths[++i])
+	{
+		if (paths[i]->type[0] != 'd')
+			to_print = ft_strchr(flags, 'l') ?
+				push_fileinfos(paths[i], to_print, padding) : push_str(to_print, paths[i]->file_name);//rajouter le /n
+	}
+	write(1, to_print->str, to_print->size - 1);
+	//free padding and dynamic string
+}
+
+void					write_long_buffer(t_file_array *files, char *flags, char recursion)
 {
 	unsigned int		i;
 	t_dstring			*to_print;
 	t_padding			*padding;
 
-	(void)flags;
-	if (!(padding = init_padding()))
+	(void)flags;//check if flags used, probably sent to push file infos
+	if (!(padding = init_padding())) //LEAKS PADDING
 		malloc_error();
-	if (!(to_print = create_dstring(BUFFER_SIZE, "")))
+	if (!(to_print = create_dstring(BUFFER_SIZE, ""))) // LEAKS DSTRING
 		malloc_error();
 	if (ft_strchr(flags, 'u'))
 		files = fill_stats(files, T_LASTACCESS, padding);
 	else
 		files = fill_stats(files, T_MODIFIED, padding);
-	to_print = push_str(to_print, "total ");
-	to_print = push_str(to_print, ft_itoa(padding->nb_blocks));
-	to_print = push_str(to_print, "\n");
+	if (recursion == 1)
+		to_print = push_total(to_print, padding->nb_blocks);
 	i = 0;
 	while (i < files->size)
 	{

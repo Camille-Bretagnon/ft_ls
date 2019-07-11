@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 16:52:04 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:20:38 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
 	return (buffer);
 }
 
-void				write_buffer(t_file_array *files, char *flags)
+void				write_buffer(t_file_array *files, char *flags, char recursion)
 {
 	t_dstring	*buffer;
 
 	if (ft_strchr(flags, 'l'))
 	{
-		write_long_buffer(files, flags);
+		write_long_buffer(files, flags, recursion);
 		return ;
 	}
 	if (!(buffer = create_dstring(2000, "")))
@@ -68,3 +68,25 @@ void				write_buffer(t_file_array *files, char *flags)
 	simple_fill(files, buffer);	
 	write(1, buffer->str, buffer->size - 1);
 }
+
+t_dstring			*push_w_padding
+						(t_dstring *dest, char *src, unsigned int size)
+{
+	unsigned int		padding;
+	unsigned int		i;
+
+	padding = size - ft_strlen(src);
+	i = 0;
+	while (++i <= padding)
+		dest = push_str(dest, " ");
+	dest = push_str(dest, src);
+	return (dest);
+}
+
+void				print_directory(char *directory)
+{
+	write(1, "\n", 1);
+	ft_putstr(directory);
+	write(1, ":\n", 2);
+}
+

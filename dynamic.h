@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 19:11:47 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:14:16 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct		s_padding
 
 t_dstring			*create_dstring(unsigned int cap, char *str);
 t_dstring			*push_str(t_dstring *dest, char *src);
+t_dstring			*push_w_padding(t_dstring *dest, char *src, unsigned int size);
 void				delete_dstring(t_dstring *del);
 
 t_darray			*create_darray(unsigned int cap);
@@ -78,9 +79,11 @@ t_array_str			*push_str_on_array(t_array_str *dest, char *src);
 void				print_file_array(t_file_array *files);
 void				print_array_str(t_array_str *directories);
 
-void				write_buffer(t_file_array *files, char *flags);
-void				write_long_buffer(t_file_array *files, char *flags);
+void				write_buffer(t_file_array *files, char *flags, char recursion);
+void				write_long_buffer(t_file_array *files, char *flags, char recursion);
 
 t_file_array		*fill_stats(t_file_array *files, char flag, t_padding *padding);
 t_padding			*init_padding(void);
+
+struct s_file		*fill_file_stats(struct s_file *file, char flag, t_padding *padding);
 #endif

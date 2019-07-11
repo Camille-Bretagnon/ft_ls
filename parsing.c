@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 13:43:04 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 15:59:35 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,17 @@ void		delete_file_struct(t_file *del)
 		ft_strdel(&del->group);
 	free(del);
 	del = NULL;
+}
+
+void		delete_simple_file_struct_array(t_file **to_del)
+{
+	int		i;
+
+	i = -1;
+	while (to_del[++i])
+		delete_file_struct(to_del[i]);
+	free(to_del);
+	to_del = NULL;
 }
 
 t_file		**get_paths(char **argv, int argc, int i)

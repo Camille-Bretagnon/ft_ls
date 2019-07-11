@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 13:16:59 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:20:35 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,20 @@ static t_array_str	*push_directory(t_array_str *rec_dir, char *path, char *file)
 	return(rec_dir);
 }
 
-static t_file_array	*read_directory(struct dirent *buffer, t_file_array *files)
+static t_file_array	*read_directory(struct dirent *buffer, t_file_array *files, char *directory)
 {
-	files = push_file(files, init_file_struct(buffer->d_name));
+	char		*full_name;
+	int			i;
+
+	i = ft_strlen(directory);
+	if (!(full_name = ft_strnew(i + ft_strlen(buffer->d_name) + 1)))
+		malloc_error();
+	ft_strcpy(full_name, directory);
+	*(full_name + i) = '/';
+	ft_strcpy(full_name + i + 1, buffer->d_name);
+	files = push_file(files, init_file_struct(full_name));
 	fill_type(files->array[files->size - 1], buffer->d_type);
+	ft_strdel(&full_name);
 	return (files);
 }
 
@@ -60,7 +70,7 @@ static int			print_error(void)
 	return (-1);
 }
 
-int					open_directory(char *directory, char *flags)
+int					open_directory(char *directory, char *flags, char recursion)
 {
 	DIR				*dir;
 	struct dirent	*buffer;
@@ -77,20 +87,20 @@ int					open_directory(char *directory, char *flags)
 	{
 		if (rec_dir != NULL && buffer->d_type == DT_DIR && buffer->d_name[0] != '.')
 			rec_dir = push_directory(rec_dir, directory, buffer->d_name);
-		files = read_directory(buffer, files);
+		files = read_directory(buffer, files, directory); //LEAKS free file array
 	}
 	//sort array file
-	//fill buffer and print
 	//sort array directories
-	/*print_file_array(files);
-	print_array_str(rec_dir);*/
-	//sort(files->array, files->size, flags);
-	write_buffer(files, flags);
+	write_buffer(files, flags, recursion);
 	i = 0;
 	if (rec_dir != NULL)
 	{
 		while (i < rec_dir->size)
-			open_directory(rec_dir->array[i++], flags);
+		{
+			print_directory(rec_dir->array[i]);
+			open_directory(rec_dir->array[i++], flags, 0);
+		}
 	}
+	// LEAKS NEED A CLOSEDIR
 	return (0);
 }

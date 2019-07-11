@@ -6,23 +6,23 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 13:43:06 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:20:40 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "./libft/libft.h"
 
-/*static void		swap(t_file **array, int i, int j)
+static void		swap(t_file **array, int i, int j)
 {
 	t_file		*temp;
 
 	temp = array[i];
 	array[i] = array[j];
 	array[j] = temp;
-}*/
+}
 
-/*static void		basic_sort(t_file **array, int size)
+void		basic_sort(t_file **array, int size)
 {
 	int	i;
 	int	j;
@@ -34,8 +34,9 @@
 		while (--j > 0 && (ft_strcmp(array[j]->file_name, array[j - 1]->file_name) < 0))
 			swap(array, j, j - 1);
 	}
-}*/
-static unsigned int		nb_len(unsigned int nb)
+}
+
+/*static unsigned int		nb_len(unsigned int nb)
 {
 	unsigned int		ret;
 
@@ -77,7 +78,7 @@ t_file_array			*fill_stats(t_file_array *files, char flag, t_padding *padding)
 		i++;
 	}
 	return (files);
-}
+}*/
 
 //si l actif u ou t sert juste a savoir quel temps afficher, u seul rien, tu sort by last access
 
