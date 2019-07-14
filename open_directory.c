@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 16:20:35 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 14:55:13 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ static void			fill_type(t_file *to_fill, char mode)
 static t_array_str	*push_directory(t_array_str *rec_dir, char *path, char *file)
 {
 	char	*str;
+	int		len;
 
-	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(path) + ft_strlen(file) + 2))))
+	len = ft_strlen(path);
+	if (!(str = ft_strnew(len + ft_strlen(file) + 1)))
 		return (NULL);
 	ft_strcpy(str, path);
-	ft_strcat(str, "/");
+	if (path[len - 1] != '/')
+		ft_strcat(str, "/");
 	ft_strcat(str, file);
 	rec_dir = push_str_on_array(rec_dir, str);
 	return(rec_dir);
@@ -92,6 +95,8 @@ int					open_directory(char *directory, char *flags, char recursion)
 	//sort array file
 	//sort array directories
 	write_buffer(files, flags, recursion);
+	delete_file_array(files);
+	closedir(dir);
 	i = 0;
 	if (rec_dir != NULL)
 	{
@@ -100,7 +105,7 @@ int					open_directory(char *directory, char *flags, char recursion)
 			print_directory(rec_dir->array[i]);
 			open_directory(rec_dir->array[i++], flags, 0);
 		}
+		delete_array_str(rec_dir);
 	}
-	// LEAKS NEED A CLOSEDIR
 	return (0);
 }

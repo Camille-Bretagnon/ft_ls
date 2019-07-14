@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:03:21 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 12:53:06 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 14:36:23 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_dstring			*create_dstring(unsigned int cap, char *str)
 	ret->size = len;
 	if (!(ret->str = ft_strnew(ret->capacity)))
 		return (NULL);
-	ft_strcpy(ret->str, str);
+	if (str[0] != '\0')
+		ft_strcpy(ret->str, str);
 	return (ret);
 }
 

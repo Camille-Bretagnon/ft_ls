@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 16:14:16 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 13:52:50 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void				delete_array_str(t_array_str *del);
 int					cpy_array_str(t_array_str *dest, t_array_str *src);
 t_array_str			*push_str_on_array(t_array_str *dest, char *src);
 
-void				print_file_array(t_file_array *files);
+void				print_file_array(t_file_array *files);			//debug fun
 void				print_array_str(t_array_str *directories);
 
 void				write_buffer(t_file_array *files, char *flags, char recursion);
