@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/14 13:52:50 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 15:53:27 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,11 @@ void				print_array_str(t_array_str *directories);
 
 void				write_buffer(t_file_array *files, char *flags, char recursion);
 void				write_long_buffer(t_file_array *files, char *flags, char recursion);
-
 t_file_array		*fill_stats(t_file_array *files, char flag, t_padding *padding);
 t_padding			*init_padding(void);
-
 struct s_file		*fill_file_stats(struct s_file *file, char flag, t_padding *padding);
+t_dstring			*push_permissions(mode_t mode, t_dstring *to_print);
+t_dstring			*push_total(t_dstring *dest, blkcnt_t total);
+t_dstring			*push_file_name(t_dstring *dest, char *file);
+
 #endif

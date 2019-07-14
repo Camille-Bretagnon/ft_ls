@@ -6,69 +6,12 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/14 14:55:11 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 15:24:06 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/libft.h"
 #include "ft_ls.h"
-#include <pwd.h>
-#include <grp.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
 
-static t_dstring		*push_total(t_dstring *dest, blkcnt_t total)
-{
-	char	*temp;
-
-	temp = ft_itoa(total);//blck is int
-	dest = push_str(dest, "total ");
-	dest = push_str(dest, temp);
-	dest = push_str(dest, "\n");
-	ft_strdel(&temp);
-	return (dest);
-}
-
-static t_dstring		*push_permissions(mode_t mode, t_dstring *to_print)
-{
-	const char	perm[10] = "rwxrwxrwx";
-	char		*buffer;
-	int			i;
-
-	if (!(buffer = ft_strnew(9)))
-		malloc_error();
-	i = -1;
-	while (++i < 9)
-		buffer[i] = (mode & (1 << (8 - i))) ? perm[i] : '-';
-	to_print = push_str(to_print, buffer);
-	free(buffer);
-	buffer = NULL;
-	return (to_print);
-}
-
-//RAJOUTER spec pour time < 6 mois TODO
-static char				*timetoa(time_t date)
-{
-	char		*buffer;
-	char		*ret;
-	int			i;
-
-	i = -1;
-	if (!(ret = (char *)malloc(sizeof(char) * 13)))
-		malloc_error();
-	buffer = ctime(&date);
-	while (++i < 3)
-		*(ret + i) = *(buffer + 4 + i);
-	*(ret + i) = ' ';
-	while (++i < 6)
-		*(ret + i) = *(buffer + 4 + i);
-	*(ret + i) = ' ';
-	while (++i < 12)
-		*(ret + i) = *(buffer + 4 + i);
-	*(ret + i) = '\0';
-	return (ret);
-}
 
 //static t_dstring		*push_file_name(char *filename, t_dstring *to_print)
 	
@@ -96,11 +39,10 @@ static t_dstring		*push_fileinfos(t_file *file, t_dstring *to_print, t_padding *
 	to_print = push_str(to_print, temp);
 	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
-	to_print = push_str(to_print, file->file_name);
-	to_print = push_str(to_print, "\n");
+	to_print = push_file_name(to_print, file->file_name);
 	return (to_print);
 }
-#include <stdio.h>
+
 void					write_paths_infos(t_file **paths, char *flags)
 {
 	t_dstring			*to_print;

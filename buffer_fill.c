@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 16:20:38 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 15:31:50 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
 	while (i < files->size)
 	{
 		buffer = color_fill(files, buffer, i);
-		buffer = push_str(buffer, files->array[i]->file_name);
-		buffer = push_str(buffer, "\n");
+		buffer = push_file_name(buffer, files->array[i]->file_name);
 		i++;
 	}
 	return (buffer);
@@ -61,7 +60,7 @@ void				write_buffer(t_file_array *files, char *flags, char recursion)
 		write_long_buffer(files, flags, recursion);
 		return ;
 	}
-	if (!(buffer = create_dstring(2000, "")))
+	if (!(buffer = create_dstring(BUFFER_SIZE, "")))
 		return ;
 	//if flag l call function fill longdisplay
 	//else fill names + flags, if flag F rajouter * etc

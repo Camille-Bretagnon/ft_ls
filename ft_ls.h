@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 16:13:24 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/14 15:16:01 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <time.h>
 #include <grp.h>
 #include <pwd.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "./libft/libft.h"
 #include "dynamic.h"
 
 # define MAX_FLAGS 6
@@ -52,6 +55,7 @@ int				open_directory(char *directory, char *flags, char recursion);
 char			*get_username(uid_t uid);
 char			*get_groupname(gid_t gid);
 void			malloc_error(void);
+char			*timetoa(time_t date);
 
 void			basic_sort(t_file **array, int size);
 void			write_paths_infos(t_file **paths, char *flags);
