@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/14 15:16:01 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/16 13:08:40 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,17 @@ void			delete_simple_file_struct_array(t_file **to_del);
 
 void			fill_struct(t_file *to_fill, struct stat buffer);
 
-int				open_directory(char *directory, char *flags, char recursion);
+int				open_directory(char *directory, char *flags);
 
 char			*get_username(uid_t uid);
 char			*get_groupname(gid_t gid);
 void			malloc_error(void);
 char			*timetoa(time_t date);
 
-void			basic_sort(t_file **array, int size);
+void			basic_sort(t_file **array, int size, char flag);
+void			time_sort(t_file **array, int size, char flag);
+void			sort_files(t_file **array, int size, char *flags);
+
 void			write_paths_infos(t_file **paths, char *flags);
 void			print_directory(char *directory);
 # endif

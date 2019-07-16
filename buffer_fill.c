@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/14 15:31:50 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/16 12:23:02 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
 	return (buffer);
 }
 
-void				write_buffer(t_file_array *files, char *flags, char recursion)
+void				write_buffer(t_file_array *files, char *flags)
 {
 	t_dstring	*buffer;
 
 	if (ft_strchr(flags, 'l'))
 	{
-		write_long_buffer(files, flags, recursion);
+		write_long_buffer(files, flags);
 		return ;
 	}
 	if (!(buffer = create_dstring(BUFFER_SIZE, "")))
@@ -84,8 +84,7 @@ t_dstring			*push_w_padding
 
 void				print_directory(char *directory)
 {
-	write(1, "\n", 1);
+	write(1, "\n\n", 2);
 	ft_putstr(directory);
 	write(1, ":\n", 2);
 }
-

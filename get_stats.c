@@ -6,28 +6,28 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 14:57:22 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/16 13:15:58 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
 
-static void		fill_type(t_file *to_fill, mode_t mode)
+static void			fill_type(t_file *to_fill, mode_t mode)
 {
-	if (mode & S_IFREG)
-		to_fill->type[0] = '-';
-	else if (mode & S_IFDIR)
-		to_fill->type[0] = 'd';
-	else if (mode & S_IFLNK)
+	if (S_ISLNK(mode))
 		to_fill->type[0] = 'l';
-	else if (mode & S_IFIFO)
+	else if (S_ISDIR(mode))
+		to_fill->type[0] = 'd';
+	else if (S_ISREG(mode))
+		to_fill->type[0] = '-';
+	else if (S_ISFIFO(mode))
 		to_fill->type[0] = 'p';
-	else if (mode & S_IFSOCK)
+	else if (S_ISSOCK(mode))
 		to_fill->type[0] = 's';
-	else if (mode & S_IFCHR)
+	else if (S_ISCHR(mode))
 		to_fill->type[0] = 'c';
-	else if (mode & S_IFBLK)
+	else if (S_ISBLK(mode))
 		to_fill->type[0] = 'b';
 }
 
@@ -55,6 +55,9 @@ t_file					*fill_file_stats(t_file *file, char flag, t_padding *padding)
 	struct stat 		buffer;
 
 	stat(file->file_name, &buffer);
+	fill_type(file, buffer.st_mode);
+	if (file->type[0] == 'l')
+		lstat(file->file_name, &buffer);
 	padding->nb_blocks += buffer.st_blocks;
 	padding->links = padding->links < nb_len(buffer.st_nlink) ?
 		nb_len(buffer.st_nlink) : padding->links;
