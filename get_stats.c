@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/16 13:15:58 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 13:59:40 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static unsigned int		nb_len(unsigned int nb)
 	return (ret);
 }
 
-t_file					*fill_file_stats(t_file *file, char flag, t_padding *padding)
+t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *padding)
 {
 	struct stat 		buffer;
 
@@ -58,7 +58,8 @@ t_file					*fill_file_stats(t_file *file, char flag, t_padding *padding)
 	fill_type(file, buffer.st_mode);
 	if (file->type[0] == 'l')
 		lstat(file->file_name, &buffer);
-	padding->nb_blocks += buffer.st_blocks;
+	if (hidden == 'a' || !(is_hidden(file->file_name)))
+		padding->nb_blocks += buffer.st_blocks;
 	padding->links = padding->links < nb_len(buffer.st_nlink) ?
 		nb_len(buffer.st_nlink) : padding->links;
 	padding->max_size = padding->max_size < nb_len(buffer.st_size) ?
@@ -78,14 +79,14 @@ t_file					*fill_file_stats(t_file *file, char flag, t_padding *padding)
 	return (file);
 }
 
-t_file_array			*fill_stats(t_file_array *files, char flag, t_padding *padding)
+t_file_array			*fill_stats(t_file_array *files, char flag, char hidden, t_padding *padding)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (i < files->size)
 	{
-		files->array[i] = fill_file_stats(files->array[i], flag, padding);
+		files->array[i] = fill_file_stats(files->array[i], flag, hidden, padding);
 		i++;
 	}
 	return (files);

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/16 13:08:40 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 13:58:47 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	s_file
 
 int				get_flags(char **argv, char *flags);
 t_file			**get_paths(char **argv, int argc, int i);
-t_file			*init_file_struct(char *name);
+t_file			*init_file_struct(char *name, char free);
 void			delete_file_struct(t_file *del);
 void			delete_simple_file_struct_array(t_file **to_del);
 
@@ -56,9 +56,8 @@ char			*get_username(uid_t uid);
 char			*get_groupname(gid_t gid);
 void			malloc_error(void);
 char			*timetoa(time_t date);
+int				is_hidden(char *file);
 
-void			basic_sort(t_file **array, int size, char flag);
-void			time_sort(t_file **array, int size, char flag);
 void			sort_files(t_file **array, int size, char *flags);
 
 void			write_paths_infos(t_file **paths, char *flags);

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/16 12:23:02 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 12:35:37 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void				write_buffer(t_file_array *files, char *flags)
 		return ;
 	}
 	if (!(buffer = create_dstring(BUFFER_SIZE, "")))
-		return ;
+		malloc_error();
 	//if flag l call function fill longdisplay
 	//else fill names + flags, if flag F rajouter * etc
 	simple_fill(files, buffer);	

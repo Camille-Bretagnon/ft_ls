@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/11 15:59:35 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 12:49:24 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,21 @@ int			get_flags(char **argv, char *flags)
 	return (ret);
 }
 
-t_file		*init_file_struct(char *name)
+t_file		*init_file_struct(char *name, char free)
 {
 	t_file	*ret;
 
 	if (!(ret = (t_file *)malloc(sizeof(t_file))))
-		return (NULL);
+		malloc_error();
 	if (!(ret->type = ft_strnew(1)))
-		return (NULL);
-	if (!(ret->file_name = ft_strdup(name)))
-		return (NULL);
+		malloc_error();
+	if (free == 1)
+		ret->file_name = name;
+	else
+	{
+		if (!(ret->file_name = ft_strdup(name)))
+			malloc_error();
+	}
 	ret->user = NULL;
 	ret->group = NULL;
 	return (ret);
@@ -89,13 +94,16 @@ t_file		**get_paths(char **argv, int argc, int i)
 	j = -1;
 	nb_path = argc - i == 0 ? 1 : argc - i;
 	if (!(ret = (t_file **)malloc(sizeof(t_file *) * (nb_path + 1))))
-			return (NULL);
+			malloc_error();
 	if (argc - i == 0)
-		ret[++j] = init_file_struct(".");
+	{
+		if (!(ret[++j] = init_file_struct(".", 0)))
+			malloc_error();
+	}
 	while (++j < nb_path)
 	{
-		if (!(ret[j] = init_file_struct(argv[i++])))
-			return (NULL);
+		if (!(ret[j] = init_file_struct(argv[i++], 0)))
+			malloc_error();
 	}
 	ret[j] = NULL;
 	return (ret);

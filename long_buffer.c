@@ -6,13 +6,13 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/16 13:15:55 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 13:51:00 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int				is_hidden(char *file)
+int					is_hidden(char *file)
 {
 	int		len;
 
@@ -40,10 +40,10 @@ static t_dstring		*push_fileinfos(t_file *file,
 	to_print = push_str(to_print, file->type);
 	to_print = push_permissions(file->perm, to_print);
 	temp = ft_itoa(file->links);
-	to_print = push_w_padding(to_print, temp, padding->links + 1);
+	to_print = push_w_padding(to_print, temp, padding->links + 2);
 	ft_strdel(&temp);
 	to_print = push_w_padding(to_print, file->user, padding->user + 1);
-	to_print = push_w_padding(to_print, file->group, padding->group + 1);
+	to_print = push_w_padding(to_print, file->group, padding->group + 2);
 	temp = ft_itoa(file->size);
 	to_print = push_w_padding(to_print, temp, padding->max_size + 2);
 	ft_strdel(&temp);
@@ -73,8 +73,8 @@ void					write_paths_infos(t_file **paths, char *flags)
 	{
 		if (paths[i]->type[0] != 'd')
 			paths[i] = ft_strchr(flags, 'u') ? 
-				fill_file_stats(paths[i], T_LASTACCESS, padding) :
-				fill_file_stats(paths[i], T_MODIFIED, padding);
+				fill_file_stats(paths[i], T_LASTACCESS, flag, padding) :
+				fill_file_stats(paths[i], T_MODIFIED, flag, padding);
 	}
 	i = -1;
 	if (ft_strchr(flags, 'l'))
@@ -82,7 +82,7 @@ void					write_paths_infos(t_file **paths, char *flags)
 		while (paths[++i])
 		{
 		if (paths[i]->type[0] != 'd')
-			to_print = push_fileinfos(paths[i], to_print, padding, flag);//rajouter le /n
+			to_print = push_fileinfos(paths[i], to_print, padding, flag);
 		}
 	}
 	else
@@ -110,19 +110,18 @@ void					write_long_buffer(t_file_array *files, char *flags)
 	t_padding			*padding;
 	char				flag;
 
-	(void)flags;//check if flags used, probably sent to push file infos
+	flag = ft_strchr(flags, 'a') ? 'a' : 'n';
 	if (!(padding = init_padding()))
 		malloc_error();
 	if (!(to_print = create_dstring(BUFFER_SIZE, "")))
 		malloc_error();
 	if (ft_strchr(flags, 'u'))
-		files = fill_stats(files, T_LASTACCESS, padding);
+		files = fill_stats(files, T_LASTACCESS, flag, padding);
 	else
-		files = fill_stats(files, T_MODIFIED, padding);
+		files = fill_stats(files, T_MODIFIED, flag, padding);
 	to_print = push_total(to_print, padding->nb_blocks);
 	sort_files(files->array, files->size, flags);
 	i = 0;
-	flag = ft_strchr(flags, 'a') ? 'a' : 'n';
 	while (i < files->size)
 	{
 		to_print = push_fileinfos(files->array[i], to_print, padding, flag);

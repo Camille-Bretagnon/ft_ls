@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:03:21 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/14 14:36:23 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 12:45:45 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ t_dstring			*create_dstring(unsigned int cap, char *str)
 	unsigned int	len;
 
 	if (!(ret = (t_dstring *)malloc(sizeof(t_dstring))))
-		return (NULL);
+		malloc_error();
 	len = ft_strlen(str);
 	if (cap < len)
 		return (NULL);
 	ret->capacity = cap;
 	ret->size = len;
 	if (!(ret->str = ft_strnew(ret->capacity)))
-		return (NULL);
+		malloc_error();
 	if (str[0] != '\0')
 		ft_strcpy(ret->str, str);
 	return (ret);
@@ -40,8 +40,6 @@ void				delete_dstring(t_dstring *del)
 	del = NULL;
 }
 
-#include <stdio.h>
-
 t_dstring			*push_str(t_dstring *dest, char *src)
 {
 	t_dstring		*temp;
@@ -53,7 +51,6 @@ t_dstring			*push_str(t_dstring *dest, char *src)
 	{
 		ft_strcpy((dest->str + dest->size), src);
 		dest->size += len;
-		//printf("src is %s dest is %s len is %d size is %u\n", src, dest->str, len, dest->size);
 	}
 	else
 	{
@@ -62,7 +59,7 @@ t_dstring			*push_str(t_dstring *dest, char *src)
 		while (len > new_cap - temp->size)
 			new_cap *= 2;
 		if (!(dest = create_dstring(new_cap, temp->str)))
-			return (NULL);
+			malloc_error();
 		delete_dstring(temp);
 		ft_strcpy((dest->str + dest->size), src);
 		dest->size += len;

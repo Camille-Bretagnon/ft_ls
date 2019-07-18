@@ -6,12 +6,11 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/15 12:58:19 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 12:11:37 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "./libft/libft.h"
 
 static void		swap(t_file **array, int i, int j)
 {
@@ -22,7 +21,7 @@ static void		swap(t_file **array, int i, int j)
 	array[j] = temp;
 }
 
-void		basic_sort(t_file **array, int size, char flag)
+static void		basic_sort(t_file **array, int size, char flag)
 {
 	int	i;
 	int	j;
@@ -44,7 +43,7 @@ void		basic_sort(t_file **array, int size, char flag)
 	}
 }
 
-void		time_sort(t_file **array, int size, char flag)
+static void		time_sort(t_file **array, int size, char flag)
 {
 	int	i;
 	int	j;

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:13:15 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/15 13:11:24 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 12:50:58 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_padding			*init_padding()
 {
 	t_padding		*ret;
 	if (!(ret = (t_padding *)malloc(sizeof(t_padding))))
-		return (NULL);
+		malloc_error();
 	ret->links = 1;
 	ret->user = 0;
 	ret->group = 0;
@@ -34,9 +34,9 @@ char				*get_username(uid_t uid)
 
 	name = getpwuid(uid);
 	if (!(name->pw_name))
-		return (NULL);
+		malloc_error();
 	if (!(ret = ft_strnew(ft_strlen(name->pw_name))))
-		return (NULL);
+		malloc_error();
 	ft_strcpy(ret, name->pw_name);
 	return (ret);
 }
@@ -48,15 +48,15 @@ char				*get_groupname(gid_t gid)
 
 	group = getgrgid(gid);
 	if (!(group->gr_name))
-		return (NULL);
+		malloc_error();
 	if (!(ret = ft_strnew(ft_strlen(group->gr_name))))
-		return (NULL);
+		malloc_error();
 	ft_strcpy(ret, group->gr_name);
 	return (ret);
 }
 
 void				malloc_error(void)
 {
-	ft_putstr("ls : malloc error error, so sorry :/\n");
-	exit(0);
+	ft_putstr("ls : malloc error, so sorry :/\n");
+	exit(-1);
 }

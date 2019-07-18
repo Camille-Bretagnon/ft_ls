@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/16 12:15:08 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 15:17:47 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int		main(int argc, char **argv)
 {
 	char			*flags;
+	char			hidden;
 	t_file			**paths;
 	int				i;
 	int				j;
@@ -26,11 +27,12 @@ int		main(int argc, char **argv)
 	flags = ft_strnew(MAX_FLAGS);
 	i = get_flags(argv, flags);
 	paths = get_paths(argv, argc, i);
+	hidden = ft_strchr(flags, 'a') ? 'a' : 'n';
 	j = -1;
 	while (paths[++j])
 	{
-		paths[j] = ft_strchr(flags, 'u') ? fill_file_stats(paths[j], T_LASTACCESS, padding)
-			: fill_file_stats(paths[j], T_MODIFIED, padding);
+		paths[j] = ft_strchr(flags, 'u') ? fill_file_stats(paths[j], T_LASTACCESS, hidden, padding)
+			: fill_file_stats(paths[j], T_MODIFIED, hidden, padding);
 	}
 	sort_files(paths, j, flags);
 	write_paths_infos(paths, flags);
@@ -43,4 +45,6 @@ int		main(int argc, char **argv)
 	write(1, "\n", 1);
 	delete_simple_file_struct_array(paths);
 	ft_strdel(&flags);
+	free(padding);
+	padding = NULL;
 }

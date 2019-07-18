@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 13:34:07 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/04 16:53:30 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 15:16:27 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,15 @@ t_file_array	*create_file_array(unsigned int cap)
 
 	i = 0;
 	if (!(ret = (t_file_array *)malloc(sizeof(t_file_array))))
-		return (NULL);
+		malloc_error();
 	ret->size = 0;
 	ret->capacity = cap;
 	if (!(ret->array = (t_file **)malloc(sizeof(t_file *) * cap)))
-		return (NULL);
+		malloc_error();
 	while (i < cap)
 		ret->array[i++] = NULL;
 	return (ret);
 }
-
-#include <stdio.h>
 
 void			delete_file_array(t_file_array *del)
 {
@@ -56,18 +54,12 @@ int				cpy_file_array(t_file_array *dest, t_file_array *src)
 	i = 0;
 	while (i < src->size)
 	{
-		if (!(dest->array[i] = init_file_struct(src->array[i]->file_name)))
-			return (-1);
-		dest->array[i]->type[0] = src->array[i]->type[0];
-		dest->array[i]->date = src->array[i]->date;
-		//rajouter le strcpy du long display
+		dest->array[i] = src->array[i];
 		i++;
 	}
 	dest->size = i;
 	return (1);
 }
-
-#include <stdio.h>
 
 t_file_array	*push_file(t_file_array *dest, t_file *src)
 {
@@ -85,6 +77,9 @@ t_file_array	*push_file(t_file_array *dest, t_file *src)
 		return (NULL);
 	dest->array[dest->size] = src;
 	dest->size += 1;
-	delete_file_array(temp);
+	free(temp->array);
+	temp->array = NULL;
+	free(temp);
+	temp = NULL;
 	return (dest);
 }
