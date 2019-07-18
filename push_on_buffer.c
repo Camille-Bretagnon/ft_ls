@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:56:59 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 12:49:44 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:44:52 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_dstring			*push_total(t_dstring *dest, blkcnt_t total)
 {
 	char	*temp;
 
-	temp = ft_itoa(total);//blck is int
+	temp = ft_itoa(total);
 	dest = push_str(dest, "total ");
 	dest = push_str(dest, temp);
 	dest = push_str(dest, "\n");
@@ -82,4 +82,18 @@ char					*timetoa(time_t date)
 		*(ret + i) = *(buffer + 4 + i);
 	*(ret + i) = '\0';
 	return (ret);
+}
+
+t_dstring				*push_slink(t_dstring *to_print, char *file)
+{
+	char		*buffer;
+
+	if (!(buffer = ft_strnew(256)))
+		malloc_error();
+	readlink(file, buffer, 256);
+	to_print = push_str(to_print, " -> ");
+	to_print = push_str(to_print, buffer);
+	to_print = push_str(to_print, "\n");
+	ft_strdel(&buffer);
+	return (to_print);
 }

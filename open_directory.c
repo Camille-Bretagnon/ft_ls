@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 13:58:15 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:38:37 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static t_file_array	*read_directory(struct dirent *buffer, t_file_array *files, 
 	*(full_name + i) = '/';
 	ft_strcpy(full_name + i + 1, buffer->d_name);
 	files = push_file(files, init_file_struct(full_name, 1));
+	if (buffer->d_type == DT_LNK)
+		files->array[files->size - 1]->type[0] = 'l';
 	return (files);
 }
 

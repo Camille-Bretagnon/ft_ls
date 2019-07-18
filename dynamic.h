@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 13:47:51 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:03:05 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ struct s_file		*fill_file_stats(struct s_file *file, char flag, char hidden, t_p
 t_dstring			*push_permissions(mode_t mode, t_dstring *to_print);
 t_dstring			*push_total(t_dstring *dest, blkcnt_t total);
 t_dstring			*push_file_name(t_dstring *dest, char *file);
+t_dstring			*push_slink(t_dstring *dest, char *file);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 13:51:00 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:39:03 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static t_dstring		*push_fileinfos(t_file *file,
 	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
 	to_print = push_file_name(to_print, file->file_name);
+	if (file->type[0] == 'l')
+		to_print = push_slink(to_print, file->file_name);
 	return (to_print);
 }
 

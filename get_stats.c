@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 13:59:40 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:44:56 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,13 @@ t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *pad
 {
 	struct stat 		buffer;
 
-	stat(file->file_name, &buffer);
-	fill_type(file, buffer.st_mode);
 	if (file->type[0] == 'l')
 		lstat(file->file_name, &buffer);
+	else
+	{
+		stat(file->file_name, &buffer);
+		fill_type(file, buffer.st_mode);
+	}
 	if (hidden == 'a' || !(is_hidden(file->file_name)))
 		padding->nb_blocks += buffer.st_blocks;
 	padding->links = padding->links < nb_len(buffer.st_nlink) ?
