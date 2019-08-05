@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 12:04:17 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 14:35:50 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@ void					write_paths_infos(t_file **paths, char *flags)
 	t_dstring			*to_print;
 	t_padding			*padding;
 	int					i;
+	int					only_dir;
 	char				flag;
 
 	i = -1;
+	only_dir = 0;
 	if (!(padding = init_padding()))
 		malloc_error();
 	if (!(to_print = create_dstring(BUFFER_SIZE, "")))
@@ -74,10 +76,15 @@ void					write_paths_infos(t_file **paths, char *flags)
 	while (paths[++i] && ft_strchr(flags, 'l'))
 	{
 		if (paths[i]->type[0] != 'd')
+		{
+			only_dir++;
 			paths[i] = ft_strchr(flags, 'u') ? 
 				fill_file_stats(paths[i], T_LASTACCESS, flag, padding) :
 				fill_file_stats(paths[i], T_MODIFIED, flag, padding);
+		}
 	}
+	if (only_dir == 0)
+		return ;
 	i = -1;
 	if (ft_strchr(flags, 'l'))
 	{
@@ -100,6 +107,7 @@ void					write_paths_infos(t_file **paths, char *flags)
 	}
 	if (to_print->size != 0)
 		write(1, to_print->str, to_print->size - 1);
+	write(1, "\n", 1);
 	free(padding);
 	padding = NULL;
 	delete_dstring(to_print);

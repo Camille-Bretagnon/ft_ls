@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 12:11:37 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 14:49:21 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void		time_sort(t_file **array, int size, char flag)
 		{
 			while (++j < i)
 			{
-				if ((double)(array[j]->date - array[j + 1]->date) < 0)
+				if ((array[j]->date.tv_nsec - array[j + 1]->date.tv_nsec) < 0)
 					swap(array, j, j + 1);
 			}
 		}
@@ -64,7 +64,7 @@ static void		time_sort(t_file **array, int size, char flag)
 		{
 			while (++j < i)
 			{
-			   if ((double)(array[j]->date - array[j + 1]->date) > 0)
+			   if ((array[j]->date.tv_nsec - array[j + 1]->date.tv_nsec) > 0)
 					swap(array, j, j + 1);
 			 }
 		}

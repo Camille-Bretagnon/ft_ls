@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 16:44:56 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 14:49:40 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void			fill_type(t_file *to_fill, mode_t mode)
 
 void			fill_struct(t_file *to_fill, struct stat buffer)
 {
-	to_fill->date = buffer.st_mtime;
+	to_fill->date = buffer.st_mtimespec;
 	fill_type(to_fill, buffer.st_mode);
 }
 
@@ -71,7 +71,7 @@ t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *pad
 	file->links = buffer.st_nlink;
 	file->uid = buffer.st_uid;
 	file->gid = buffer.st_gid;
-	file->date = flag == 0 ? buffer.st_mtime : buffer.st_atime;
+	file->date = flag == 0 ? buffer.st_mtimespec : buffer.st_atimespec;
 	file->size = buffer.st_size;
 	file->user = get_username(file->uid);
 	file->group = get_groupname(file->gid);

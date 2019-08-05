@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 16:46:45 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 14:49:13 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_file
 	char			*user;
 	char			*group;
 	unsigned int	size;
-	time_t			date;
+	struct timespec	date;
 }				t_file;
 
 int				get_flags(char **argv, char *flags);

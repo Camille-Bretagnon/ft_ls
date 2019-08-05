@@ -6,36 +6,12 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 12:36:05 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 14:33:59 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
-#include "colors.h"
-#include <unistd.h>
-
-static t_dstring	*color_fill(t_file_array *files, 
-		t_dstring *buffer, unsigned int i)
-{
-	if (i > files->size)
-		return (NULL);
-	else if (files->array[i]->type[0] == 'c')
-		buffer = push_str(buffer, RED);
-	else if (files->array[i]->type[0] == 'b')
-		buffer = push_str(buffer, GREEN);
-	else if (files->array[i]->type[0] == 'd')
-		buffer = push_str(buffer, BLUE);
-	else if (files->array[i]->type[0] == 'l')
-		buffer = push_str(buffer, YELLOW);
-	else if (files->array[i]->type[0] == 's')
-		buffer = push_str(buffer, PURPLE);
-	else if (files->array[i]->type[0] == 'p')
-		buffer = push_str(buffer, CYAN);
-	else
-		buffer = push_str(buffer, WHITE);
-	return (buffer);
-}
 
 static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag)
 {
@@ -46,7 +22,6 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag
 	{
 		if (flag == 'a' || !(is_hidden(files->array[i]->file_name)))
 		{
-			buffer = color_fill(files, buffer, i);
 			buffer = push_file_name(buffer, files->array[i]->file_name);
 		}
 		i++;

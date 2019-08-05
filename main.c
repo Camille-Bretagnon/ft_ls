@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 12:36:07 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 14:37:45 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,28 @@ int		main(int argc, char **argv)
 		paths[j] = ft_strchr(flags, 'u') ? fill_file_stats(paths[j], T_LASTACCESS, hidden, padding)
 			: fill_file_stats(paths[j], T_MODIFIED, hidden, padding);
 	}
-	sort_files(paths, j, flags);
-	write_paths_infos(paths, flags);
-	j = -1;
-	while (paths[++j])
+	if (j == 1)
 	{
-		if (paths[j]->type[0] == 'd')
+		open_directory(paths[0]->file_name, flags);
+	}
+	else
+	{
+		sort_files(paths, j, flags);
+		write_paths_infos(paths, flags);
+		j = -1;
+		while (paths[++j])
 		{
-			write(1, paths[j]->file_name, ft_strlen(paths[j]->file_name));
-			write(1, " :\n", 3);
-			open_directory(paths[j]->file_name, flags);
-			write(1, "\n\n", 2);
+			if (paths[j]->type[0] == 'd')
+			{
+				ft_putstr(paths[j]->file_name);
+				write(1, ":\n", 2);
+				open_directory(paths[j]->file_name, flags);
+				if (paths[j + 1])
+					write(1, "\n\n", 2);
+			}
 		}
 	}
+	write(1, "\n", 1);
 	delete_simple_file_struct_array(paths);
 	ft_strdel(&flags);
 	free(padding);
