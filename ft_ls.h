@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 13:58:47 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:46:45 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <unistd.h>
 #include "./libft/libft.h"
 #include "dynamic.h"
+
+#include <sys/wait.h>
 
 # define MAX_FLAGS 6
 

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 12:35:37 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 12:36:05 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,18 @@ static t_dstring	*color_fill(t_file_array *files,
 	return (buffer);
 }
 
-static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
+static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (i < files->size)
 	{
-		buffer = color_fill(files, buffer, i);
-		buffer = push_file_name(buffer, files->array[i]->file_name);
+		if (flag == 'a' || !(is_hidden(files->array[i]->file_name)))
+		{
+			buffer = color_fill(files, buffer, i);
+			buffer = push_file_name(buffer, files->array[i]->file_name);
+		}
 		i++;
 	}
 	return (buffer);
@@ -54,7 +57,9 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer)
 void				write_buffer(t_file_array *files, char *flags)
 {
 	t_dstring	*buffer;
+	char		flag;
 
+	flag = (ft_strchr(flags, 'a')) ? 'a' : 'n';
 	if (ft_strchr(flags, 'l'))
 	{
 		write_long_buffer(files, flags);
@@ -64,7 +69,7 @@ void				write_buffer(t_file_array *files, char *flags)
 		malloc_error();
 	//if flag l call function fill longdisplay
 	//else fill names + flags, if flag F rajouter * etc
-	simple_fill(files, buffer);	
+	simple_fill(files, buffer, flag);	
 	write(1, buffer->str, buffer->size - 1);
 }
 

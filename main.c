@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 16:35:49 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 12:36:07 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ int		main(int argc, char **argv)
 	while (paths[++j])
 	{
 		if (paths[j]->type[0] == 'd')
+		{
+			write(1, paths[j]->file_name, ft_strlen(paths[j]->file_name));
+			write(1, " :\n", 3);
 			open_directory(paths[j]->file_name, flags);
+			write(1, "\n\n", 2);
+		}
 	}
-	write(1, "\n", 1);
 	delete_simple_file_struct_array(paths);
 	ft_strdel(&flags);
 	free(padding);

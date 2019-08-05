@@ -6,15 +6,15 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 16:03:05 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/05 12:32:20 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DYNAMIC_H
 # define DYNAMIC_H
 
-# define BASE_CAP 	2
-# define BASE_ARRAY	2
+# define BASE_CAP 	256
+# define BASE_ARRAY	256
 # define BUFFER_SIZE 4096
 
 #include "ft_ls.h"

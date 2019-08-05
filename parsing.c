@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 12:49:24 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/07/18 17:23:16 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ int			get_flags(char **argv, char *flags)
 		j = 0;
 		while (argv[ret][++j])
 		{
-			if (!(ft_strchr("larRtFnpTu", argv[ret][j]))) //verif les options
-				write(1, "ls: illegal options\nusage: ls [verfi options] [file ...]", 56); //ajouter un return -1, recuperer l'erreur free etc
+			if (!(ft_strchr("larRtFnpTu", argv[ret][j])))
+			{
+				write(1, "ls: illegal options\nusage: ls [verfi options] [file ...]", 56);
+				exit(-1);
+			}
 			if (!(ft_strchr(flags, argv[ret][j])))
 				flags[++i] = argv[ret][j];
 		}
