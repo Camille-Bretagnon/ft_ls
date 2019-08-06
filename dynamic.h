@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 12:32:20 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 16:04:39 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_padding
 	unsigned int	links;
 	unsigned int	user;
 	unsigned int	group;
+	int				max_major;
 	unsigned long	nb_blocks;
 	unsigned int	max_size;
 }					t_padding;
@@ -61,5 +62,7 @@ t_dstring			*push_permissions(mode_t mode, t_dstring *to_print);
 t_dstring			*push_total(t_dstring *dest, blkcnt_t total);
 t_dstring			*push_file_name(t_dstring *dest, char *file);
 t_dstring			*push_slink(t_dstring *dest, char *file);
+t_dstring			*push_major(t_dstring *dest, struct s_file *file, int padding);
+t_dstring			*push_minor(t_dstring *dest, struct s_file *file, int padding);
 
 #endif

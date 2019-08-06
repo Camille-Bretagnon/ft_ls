@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:13:15 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/07/18 12:50:58 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 15:50:53 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_padding			*init_padding()
 	ret->links = 1;
 	ret->user = 0;
 	ret->group = 0;
+	ret->max_major = -1;
 	ret->nb_blocks = 0;
 	ret->max_size = 0;
 	return (ret);

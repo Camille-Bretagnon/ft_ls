@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:56:59 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 15:04:03 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 16:22:21 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char					*timetoa(time_t date)
 		*(ret + i) = *(buffer + 4 + i);
 	*(ret + i) = ' ';
 	if (date > now - 15811200)
-		ft_strncpy(ret + i + 1, buffer + 11, 8);
+		ft_strncpy(ret + i + 1, buffer + 11, 5);
 	else
 		ft_strncpy(ret + i + 1, buffer + 20, 4);
 	return (ret);

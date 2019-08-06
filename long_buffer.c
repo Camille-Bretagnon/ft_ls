@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 14:24:54 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 16:15:28 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,13 @@ static t_dstring		*push_fileinfos(t_file *file,
 	ft_strdel(&temp);
 	to_print = push_w_padding(to_print, file->user, padding->user + 1);
 	to_print = push_w_padding(to_print, file->group, padding->group + 2);
+	if (padding->max_major != -1)
+		to_print = push_major(to_print, file, padding->max_major);
 	temp = ft_itoa(file->size);
-	to_print = push_w_padding(to_print, temp, padding->max_size + 2);
+	if (file->type[0] == '-' || file->type[0] == 'l' || file->type[0] == 's' || file->type[0] == 'd')
+		to_print = push_w_padding(to_print, temp, padding->max_size + 2);
+	else
+		to_print = push_minor(to_print, file, padding->max_size + 2);
 	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
 	temp = timetoa(file->date.tv_sec);

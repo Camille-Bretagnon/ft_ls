@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 14:23:23 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 16:05:22 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void			fill_struct(t_file *to_fill, struct stat buffer)
 	fill_type(to_fill, buffer.st_mode);
 }
 
-static unsigned int		nb_len(unsigned int nb)
+unsigned int		nb_len(unsigned int nb)
 {
 	unsigned int		ret;
 
@@ -48,6 +48,13 @@ static unsigned int		nb_len(unsigned int nb)
 		ret++;
 	}
 	return (ret);
+}
+
+static int				fun_major(t_file	*file)
+{
+	if (file->type[0] == 'c' || file->type[0] == 'p' || file->type[0] == 'b')
+		return (-1);
+	return (nb_len(major(file->device)));
 }
 
 t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *padding)
@@ -67,10 +74,14 @@ t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *pad
 		nb_len(buffer.st_nlink) : padding->links;
 	padding->max_size = padding->max_size < nb_len(buffer.st_size) ?
 		nb_len(buffer.st_size) : padding->max_size;
+	padding->max_size = padding->max_size < nb_len(minor(buffer.st_rdev)) ?
+		nb_len(minor(buffer.st_rdev)) : padding->max_size;
 	file->perm = buffer.st_mode;
 	file->links = buffer.st_nlink;
 	file->uid = buffer.st_uid;
 	file->gid = buffer.st_gid;
+	file->device = buffer.st_rdev;
+	padding->max_major = fun_major(file) > padding->max_major ? fun_major(file) : padding->max_major;
 	file->date = flag == 0 ? buffer.st_mtimespec : buffer.st_atimespec;
 	file->size = buffer.st_size;
 	file->user = get_username(file->uid);

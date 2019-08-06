@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 11:56:40 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 16:04:20 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_file
 	nlink_t			links;
 	uid_t			uid;
 	gid_t			gid;
+	dev_t			device;
 	char			*user;
 	char			*group;
 	unsigned int	size;
@@ -64,4 +65,6 @@ void			sort_files(t_file **array, int size, char *flags);
 
 void			write_paths_infos(t_file **paths, char *flags);
 void			print_directory(char *directory);
+
+unsigned int	nb_len(unsigned int nb);
 # endif
