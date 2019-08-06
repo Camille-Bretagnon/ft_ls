@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 14:33:59 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 14:41:37 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,26 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag
 	return (buffer);
 }
 
-void				write_buffer(t_file_array *files, char *flags)
+static t_file_array		*fill_date(t_file_array *files, char flag)
+{
+	unsigned int		i;
+	struct stat			buffer;
+
+	i = 0;
+	while (i < files->size)
+	{
+		stat(files->array[i]->file_name, &buffer);
+		files->array[i]->date = flag == 'u' ? buffer.st_atimespec : buffer.st_mtimespec;
+		i++;
+	}
+	return (files);
+}
+
+void					write_buffer(t_file_array *files, char *flags)
 {
 	t_dstring	*buffer;
 	char		flag;
+	char		flag_time;
 
 	flag = (ft_strchr(flags, 'a')) ? 'a' : 'n';
 	if (ft_strchr(flags, 'l'))
@@ -42,8 +58,12 @@ void				write_buffer(t_file_array *files, char *flags)
 	}
 	if (!(buffer = create_dstring(BUFFER_SIZE, "")))
 		malloc_error();
-	//if flag l call function fill longdisplay
-	//else fill names + flags, if flag F rajouter * etc
+	if (ft_strchr(flags, 't'))
+	{
+		flag_time = ft_strchr(flags, 'u') ? 'u' : 't';
+		files = fill_date(files, flag_time);
+	}
+	sort_files(files->array, files->size, flags);	
 	simple_fill(files, buffer, flag);	
 	write(1, buffer->str, buffer->size - 1);
 }

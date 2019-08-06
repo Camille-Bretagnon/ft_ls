@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:56:59 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 12:03:41 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 15:04:03 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,18 @@ t_dstring			*push_permissions(mode_t mode, t_dstring *to_print)
 	buffer = NULL;
 	return (to_print);
 }
-
-//RAJOUTER spec pour time < 6 mois TODO
+//15 811 200
 char					*timetoa(time_t date)
 {
 	char		*buffer;
 	char		*ret;
 	int			i;
+	time_t		now;
 
 	i = -1;
-	if (!(ret = (char *)malloc(sizeof(char) * 13)))
+	if (!(ret = ft_strnew(12)))
 		malloc_error();
+	time(&now);
 	buffer = ctime(&date);
 	while (++i < 3)
 		*(ret + i) = *(buffer + 4 + i);
@@ -78,9 +79,10 @@ char					*timetoa(time_t date)
 	while (++i < 6)
 		*(ret + i) = *(buffer + 4 + i);
 	*(ret + i) = ' ';
-	while (++i < 12)
-		*(ret + i) = *(buffer + 4 + i);
-	*(ret + i) = '\0';
+	if (date > now - 15811200)
+		ft_strncpy(ret + i + 1, buffer + 11, 8);
+	else
+		ft_strncpy(ret + i + 1, buffer + 20, 4);
 	return (ret);
 }
 

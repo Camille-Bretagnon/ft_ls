@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/05 14:29:02 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/06 14:23:35 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_file_array	*push_directory(t_file_array *rec_dir, char *path,
 	if (!(new_dir = init_file_struct(str, 1)))
 		malloc_error();
 	stat(str, &buffer);
-	new_dir->date = time ? buffer.st_atime : buffer.st_mtime;
+	new_dir->date = time ? buffer.st_atimespec : buffer.st_mtimespec;
 	rec_dir = push_file(rec_dir, new_dir);
 	return(rec_dir);
 }
