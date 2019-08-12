@@ -6,14 +6,14 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 16:05:22 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 13:29:14 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
 
-static void			fill_type(t_file *to_fill, mode_t mode)
+void				fill_type(t_file *to_fill, mode_t mode)
 {
 	if (S_ISLNK(mode))
 		to_fill->type[0] = 'l';
@@ -52,22 +52,17 @@ unsigned int		nb_len(unsigned int nb)
 
 static int				fun_major(t_file	*file)
 {
-	if (file->type[0] == 'c' || file->type[0] == 'p' || file->type[0] == 'b')
-		return (-1);
-	return (nb_len(major(file->device)));
+	if (file->type[0] == 'b' || file->type[0] == 'c')
+		return (nb_len(major(file->device)));
+	return (-1);
 }
 
 t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *padding)
 {
 	struct stat 		buffer;
 
-	if (file->type[0] == 'l')
-		lstat(file->file_name, &buffer);
-	else
-	{
-		stat(file->file_name, &buffer);
-		fill_type(file, buffer.st_mode);
-	}
+	lstat(file->file_name, &buffer);
+	fill_type(file, buffer.st_mode);
 	if (hidden == 'a' || !(is_hidden(file->file_name)))
 		padding->nb_blocks += buffer.st_blocks;
 	padding->links = padding->links < nb_len(buffer.st_nlink) ?

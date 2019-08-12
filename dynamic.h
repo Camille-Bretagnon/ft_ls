@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 16:04:39 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 11:56:30 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_padding			*init_padding(void);
 struct s_file		*fill_file_stats(struct s_file *file, char flag, char hidden, t_padding *padding);
 t_dstring			*push_permissions(mode_t mode, t_dstring *to_print);
 t_dstring			*push_total(t_dstring *dest, blkcnt_t total);
-t_dstring			*push_file_name(t_dstring *dest, char *file);
+t_dstring			*push_file_name(t_dstring *dest, char *file, char link);
 t_dstring			*push_slink(t_dstring *dest, char *file);
 t_dstring			*push_major(t_dstring *dest, struct s_file *file, int padding);
 t_dstring			*push_minor(t_dstring *dest, struct s_file *file, int padding);

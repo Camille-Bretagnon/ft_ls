@@ -6,13 +6,13 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:56:59 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 16:22:21 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 12:00:13 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_dstring			*push_file_name(t_dstring *dest, char *file)
+t_dstring			*push_file_name(t_dstring *dest, char *file, char link)
 {
 	int		len;
 	char	*brk;
@@ -28,7 +28,8 @@ t_dstring			*push_file_name(t_dstring *dest, char *file)
 		}
 	}
 	dest = push_str(dest, brk);
-	dest = push_str(dest, "\n");
+	if (link == 0)
+		dest = push_str(dest, "\n");
 	return (dest);
 }
 

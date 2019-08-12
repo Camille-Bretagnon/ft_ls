@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 12:04:58 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 13:38:18 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int		main(int argc, char **argv)
 		paths[j] = ft_strchr(flags, 'u') ? fill_file_stats(paths[j], T_LASTACCESS, hidden, padding)
 			: fill_file_stats(paths[j], T_MODIFIED, hidden, padding);
 	}
-	if (j == 1)
+	if (j == 1 && paths[0]->file_name[0] == '.')
 	{
 		open_directory(paths[0]->file_name, flags);
 	}
 	else
 	{
 		sort_files(paths, j, flags);
-		write_paths_infos(paths, flags);
+		write_paths_infos(paths, flags, padding);
 		j = -1;
 		while (paths[++j])
 		{

@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 16:04:20 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 13:09:27 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void			delete_file_struct(t_file *del);
 void			delete_simple_file_struct_array(t_file **to_del);
 
 void			fill_struct(t_file *to_fill, struct stat buffer);
+void			fill_type(t_file *to_fill, mode_t mode);
 
 int				open_directory(char *directory, char *flags);
 
@@ -63,7 +64,7 @@ int				is_hidden(char *file);
 
 void			sort_files(t_file **array, int size, char *flags);
 
-void			write_paths_infos(t_file **paths, char *flags);
+void			write_paths_infos(t_file **paths, char *flags, struct s_padding *padding);
 void			print_directory(char *directory);
 
 unsigned int	nb_len(unsigned int nb);

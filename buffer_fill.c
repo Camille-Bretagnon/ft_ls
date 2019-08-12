@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 16:01:22 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 13:06:28 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag
 	{
 		if (flag == 'a' || !(is_hidden(files->array[i]->file_name)))
 		{
-			buffer = push_file_name(buffer, files->array[i]->file_name);
+			if (files->array[i]->type[0] == 'l')
+			{
+				buffer = push_file_name(buffer, files->array[i]->file_name, 1);
+				buffer = push_slink(buffer, files->array[i]->file_name);
+			}
+			else
+				buffer = push_file_name(buffer, files->array[i]->file_name, 0);
 		}
 		i++;
 	}
@@ -37,8 +43,9 @@ static t_file_array		*fill_date(t_file_array *files, char flag)
 	i = 0;
 	while (i < files->size)
 	{
-		stat(files->array[i]->file_name, &buffer);
+		lstat(files->array[i]->file_name, &buffer);
 		files->array[i]->date = flag == 'u' ? buffer.st_atimespec : buffer.st_mtimespec;
+		fill_type(files->array[i], buffer.st_mode);
 		i++;
 	}
 	return (files);

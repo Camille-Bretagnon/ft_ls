@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 16:15:28 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 13:40:40 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_dstring		*push_fileinfos(t_file *file,
 	if (padding->max_major != -1)
 		to_print = push_major(to_print, file, padding->max_major);
 	temp = ft_itoa(file->size);
-	if (file->type[0] == '-' || file->type[0] == 'l' || file->type[0] == 's' || file->type[0] == 'd')
+	if (file->type[0] != 'b' && file->type[0] != 'c')
 		to_print = push_w_padding(to_print, temp, padding->max_size + 2);
 	else
 		to_print = push_minor(to_print, file, padding->max_size + 2);
@@ -57,46 +57,40 @@ static t_dstring		*push_fileinfos(t_file *file,
 	to_print = push_str(to_print, temp);
 	ft_strdel(&temp);
 	to_print = push_str(to_print, " ");
-	to_print = push_file_name(to_print, file->file_name);
+	to_print = file->type[0] == 'l' ? push_file_name(to_print, file->file_name, 1)
+		: push_file_name(to_print, file->file_name, 0);
 	if (file->type[0] == 'l')
 		to_print = push_slink(to_print, file->file_name);
 	return (to_print);
 }
 
-void					write_paths_infos(t_file **paths, char *flags)
+void					write_paths_infos(t_file **paths, char *flags, t_padding *padding)
 {
 	t_dstring			*to_print;
-	t_padding			*padding;
 	int					i;
 	int					only_dir;
-	char				flag;
 
 	i = -1;
 	only_dir = 0;
-	if (!(padding = init_padding()))
-		malloc_error();
 	if (!(to_print = create_dstring(BUFFER_SIZE, "")))
 		malloc_error();
-	flag = ft_strchr(flags, 'a') ? 'a' : 'n';
-	while (paths[++i] && ft_strchr(flags, 'l'))
+	while (paths[++i])
 	{
-		if (paths[i]->type[0] != 'd')
-		{
+		if (paths[i]->type[0] == 'd')
 			only_dir++;
-			paths[i] = ft_strchr(flags, 'u') ? 
-				fill_file_stats(paths[i], T_LASTACCESS, flag, padding) :
-				fill_file_stats(paths[i], T_MODIFIED, flag, padding);
-		}
 	}
-	if (only_dir == 0)
+	if (only_dir != 0 && only_dir == i)
+	{
+		delete_dstring(to_print);
 		return ;
+	}
 	i = -1;
 	if (ft_strchr(flags, 'l'))
 	{
 		while (paths[++i])
 		{
-		if (paths[i]->type[0] != 'd')
-			to_print = push_fileinfos(paths[i], to_print, padding, flag);
+			if (paths[i]->type[0] != 'd')
+				to_print = push_fileinfos(paths[i], to_print, padding, 'a');
 		}
 	}
 	else
@@ -105,16 +99,18 @@ void					write_paths_infos(t_file **paths, char *flags)
 		{
 			if (paths[i]->type[0] != 'd')
 			{
-				to_print = push_str(to_print, paths[i]->file_name);
-				to_print = push_str(to_print, "\n");
+				if (paths[i]->type[0] == 'l')
+				{
+					to_print = push_file_name(to_print, paths[i]->file_name, 1);
+					to_print = push_slink(to_print, paths[i]->file_name);
+				}
+				else
+					to_print = push_file_name(to_print, paths[i]->file_name, 0);
 			}
 		}
 	}
 	if (to_print->size != 0)
 		write(1, to_print->str, to_print->size - 1);
-	write(1, "\n", 1);
-	free(padding);
-	padding = NULL;
 	delete_dstring(to_print);
 }
 
