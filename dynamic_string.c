@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:03:21 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 15:51:03 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 15:57:02 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void				delete_dstring(t_dstring *del)
 	del = NULL;
 }
 
-t_dstring			*push_str(t_dstring *dest, char *src)
+t_dstring			*push_str(t_dstring *dest, char *src, char fr)
 {
 	t_dstring		*temp;
 	int				new_cap;
@@ -64,5 +64,7 @@ t_dstring			*push_str(t_dstring *dest, char *src)
 		ft_strcpy((dest->str + dest->size), src);
 		dest->size += len;
 	}
+	if (fr == 1)
+		ft_strdel(&src);
 	return (dest);
 }

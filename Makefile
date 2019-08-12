@@ -6,7 +6,7 @@
 #    By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/03 16:54:48 by cbretagn          #+#    #+#              #
-#    Updated: 2019/08/06 16:03:33 by cbretagn         ###   ########.fr        #
+#    Updated: 2019/08/12 16:08:25 by cbretagn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC			= parsing.c\
 			  utility.c\
 			  push_on_buffer.c\
 			  major_minor.c\
+			  utility2.c\
 			  main.c
 
 OBJS		:= $(SRC:.c=.o)

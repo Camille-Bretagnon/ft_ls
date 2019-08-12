@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 14:56:59 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 12:00:13 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:30:43 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ t_dstring			*push_file_name(t_dstring *dest, char *file, char link)
 		if (file[len] == '/')
 		{
 			brk = file + len + 1;
-			break;
+			break ;
 		}
 	}
-	dest = push_str(dest, brk);
+	dest = push_str(dest, brk, 0);
 	if (link == 0)
-		dest = push_str(dest, "\n");
+		dest = push_str(dest, "\n", 0);
 	return (dest);
 }
 
@@ -38,9 +38,9 @@ t_dstring			*push_total(t_dstring *dest, blkcnt_t total)
 	char	*temp;
 
 	temp = ft_itoa(total);
-	dest = push_str(dest, "total ");
-	dest = push_str(dest, temp);
-	dest = push_str(dest, "\n");
+	dest = push_str(dest, "total ", 0);
+	dest = push_str(dest, temp, 0);
+	dest = push_str(dest, "\n", 0);
 	ft_strdel(&temp);
 	return (dest);
 }
@@ -56,13 +56,13 @@ t_dstring			*push_permissions(mode_t mode, t_dstring *to_print)
 	i = -1;
 	while (++i < 9)
 		buffer[i] = (mode & (1 << (8 - i))) ? perm[i] : '-';
-	to_print = push_str(to_print, buffer);
+	to_print = push_str(to_print, buffer, 0);
 	free(buffer);
 	buffer = NULL;
 	return (to_print);
 }
-//15 811 200
-char					*timetoa(time_t date)
+
+char				*timetoa(time_t date)
 {
 	char		*buffer;
 	char		*ret;
@@ -87,16 +87,16 @@ char					*timetoa(time_t date)
 	return (ret);
 }
 
-t_dstring				*push_slink(t_dstring *to_print, char *file)
+t_dstring			*push_slink(t_dstring *to_print, char *file)
 {
 	char		*buffer;
 
 	if (!(buffer = ft_strnew(256)))
 		malloc_error();
 	readlink(file, buffer, 256);
-	to_print = push_str(to_print, " -> ");
-	to_print = push_str(to_print, buffer);
-	to_print = push_str(to_print, "\n");
+	to_print = push_str(to_print, " -> ", 0);
+	to_print = push_str(to_print, buffer, 0);
+	to_print = push_str(to_print, "\n", 0);
 	ft_strdel(&buffer);
 	return (to_print);
 }

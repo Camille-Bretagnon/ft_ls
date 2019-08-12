@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:13:15 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 15:50:53 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:31:37 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include "./libft/libft.h"
 #include <stdlib.h>
 
-t_padding			*init_padding()
+t_padding			*init_padding(void)
 {
 	t_padding		*ret;
+
 	if (!(ret = (t_padding *)malloc(sizeof(t_padding))))
 		malloc_error();
 	ret->links = 1;
@@ -28,9 +29,15 @@ t_padding			*init_padding()
 	return (ret);
 }
 
+void				delete_padding(t_padding *padding)
+{
+	free(padding);
+	padding = NULL;
+}
+
 char				*get_username(uid_t uid)
 {
-	struct passwd 	*name;
+	struct passwd	*name;
 	char			*ret;
 
 	name = getpwuid(uid);
@@ -44,7 +51,7 @@ char				*get_username(uid_t uid)
 
 char				*get_groupname(gid_t gid)
 {
-	struct group 	*group;
+	struct group	*group;
 	char			*ret;
 
 	group = getgrgid(gid);

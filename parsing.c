@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 12:25:17 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:29:49 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ int			get_flags(char **argv, char *flags)
 		while (argv[ret][++j])
 		{
 			if (!(ft_strchr("larRtFnpTu", argv[ret][j])))
-			{
-				write(1, "ls: illegal options\nusage: ls [larRtFnpTu] [file ...]\n", 54);
-				exit(-1);
-			}
+				usage();
 			if (!(ft_strchr(flags, argv[ret][j])))
 				flags[++i] = argv[ret][j];
 		}
@@ -97,7 +94,7 @@ t_file		**get_paths(char **argv, int argc, int i)
 	j = -1;
 	nb_path = argc - i == 0 ? 1 : argc - i;
 	if (!(ret = (t_file **)malloc(sizeof(t_file *) * (nb_path + 1))))
-			malloc_error();
+		malloc_error();
 	if (argc - i == 0)
 	{
 		if (!(ret[++j] = init_file_struct(".", 0)))

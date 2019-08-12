@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 11:56:30 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:29:22 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define BASE_ARRAY	256
 # define BUFFER_SIZE 4096
 
-#include "ft_ls.h"
+# include "ft_ls.h"
 
 typedef struct		s_dstring
 {
@@ -28,7 +28,7 @@ typedef struct		s_dstring
 
 typedef struct		s_file_array
 {
-	unsigned int 	size;
+	unsigned int	size;
 	unsigned int	capacity;
 	struct s_file	**array;
 }					t_file_array;
@@ -44,8 +44,9 @@ typedef struct		s_padding
 }					t_padding;
 
 t_dstring			*create_dstring(unsigned int cap, char *str);
-t_dstring			*push_str(t_dstring *dest, char *src);
-t_dstring			*push_w_padding(t_dstring *dest, char *src, unsigned int size);
+t_dstring			*push_str(t_dstring *dest, char *src, char fr);
+t_dstring			*push_w_padding(t_dstring *dest,
+							char *src, unsigned int size, char fr);
 void				delete_dstring(t_dstring *del);
 
 t_file_array		*create_file_array(unsigned int cap);
@@ -55,14 +56,21 @@ t_file_array		*push_file(t_file_array *dest, struct s_file *src);
 
 void				write_buffer(t_file_array *files, char *flags);
 void				write_long_buffer(t_file_array *files, char *flags);
-t_file_array		*fill_stats(t_file_array *files, char flag, char hidden, t_padding *padding);
+t_file_array		*fill_stats(t_file_array *files, char flag,
+							char hidden, t_padding *padding);
 t_padding			*init_padding(void);
-struct s_file		*fill_file_stats(struct s_file *file, char flag, char hidden, t_padding *padding);
+void				delete_padding(t_padding *padding);
+struct s_file		*fill_file_stats(struct s_file *file, char flag,
+							char hidden, t_padding *padding);
 t_dstring			*push_permissions(mode_t mode, t_dstring *to_print);
 t_dstring			*push_total(t_dstring *dest, blkcnt_t total);
 t_dstring			*push_file_name(t_dstring *dest, char *file, char link);
 t_dstring			*push_slink(t_dstring *dest, char *file);
-t_dstring			*push_major(t_dstring *dest, struct s_file *file, int padding);
-t_dstring			*push_minor(t_dstring *dest, struct s_file *file, int padding);
+t_dstring			*push_major(t_dstring *dest,
+							struct s_file *file, int padding);
+t_dstring			*push_minor(t_dstring *dest,
+							struct s_file *file, int padding);
 
+void				write_paths_infos(struct s_file **paths,
+					char *flags, t_padding *padding);
 #endif

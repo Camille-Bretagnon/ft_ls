@@ -6,14 +6,15 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 13:06:28 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 15:53:58 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
 
-static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag)
+static t_dstring			*simple_fill(t_file_array *files,
+							t_dstring *buffer, char flag)
 {
 	unsigned int	i;
 
@@ -35,7 +36,7 @@ static t_dstring		*simple_fill(t_file_array *files, t_dstring *buffer, char flag
 	return (buffer);
 }
 
-static t_file_array		*fill_date(t_file_array *files, char flag)
+static t_file_array			*fill_date(t_file_array *files, char flag)
 {
 	unsigned int		i;
 	struct stat			buffer;
@@ -44,14 +45,15 @@ static t_file_array		*fill_date(t_file_array *files, char flag)
 	while (i < files->size)
 	{
 		lstat(files->array[i]->file_name, &buffer);
-		files->array[i]->date = flag == 'u' ? buffer.st_atimespec : buffer.st_mtimespec;
+		files->array[i]->date = flag == 'u' ?
+			buffer.st_atimespec : buffer.st_mtimespec;
 		fill_type(files->array[i], buffer.st_mode);
 		i++;
 	}
 	return (files);
 }
 
-void					write_buffer(t_file_array *files, char *flags)
+void						write_buffer(t_file_array *files, char *flags)
 {
 	t_dstring	*buffer;
 	char		flag;
@@ -70,13 +72,13 @@ void					write_buffer(t_file_array *files, char *flags)
 		flag_time = ft_strchr(flags, 'u') ? 'u' : 't';
 		files = fill_date(files, flag_time);
 	}
-	sort_files(files->array, files->size, flags);	
-	simple_fill(files, buffer, flag);	
+	sort_files(files->array, files->size, flags);
+	simple_fill(files, buffer, flag);
 	write(1, buffer->str, buffer->size - 1);
 }
 
-t_dstring			*push_w_padding
-						(t_dstring *dest, char *src, unsigned int size)
+t_dstring					*push_w_padding(t_dstring *dest,
+							char *src, unsigned int size, char fr)
 {
 	unsigned int		padding;
 	unsigned int		i;
@@ -84,12 +86,12 @@ t_dstring			*push_w_padding
 	padding = size - ft_strlen(src);
 	i = 0;
 	while (++i <= padding)
-		dest = push_str(dest, " ");
-	dest = push_str(dest, src);
+		dest = push_str(dest, " ", 0);
+	dest = fr == 1 ? push_str(dest, src, 1) : push_str(dest, src, 0);
 	return (dest);
 }
 
-void				print_directory(char *directory)
+void						print_directory(char *directory)
 {
 	write(1, "\n\n", 2);
 	ft_putstr(directory);

@@ -6,14 +6,14 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 13:29:14 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 14:11:09 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "ft_ls.h"
 
-void				fill_type(t_file *to_fill, mode_t mode)
+void					fill_type(t_file *to_fill, mode_t mode)
 {
 	if (S_ISLNK(mode))
 		to_fill->type[0] = 'l';
@@ -31,13 +31,7 @@ void				fill_type(t_file *to_fill, mode_t mode)
 		to_fill->type[0] = 'b';
 }
 
-void			fill_struct(t_file *to_fill, struct stat buffer)
-{
-	to_fill->date = buffer.st_mtimespec;
-	fill_type(to_fill, buffer.st_mode);
-}
-
-unsigned int		nb_len(unsigned int nb)
+unsigned int			nb_len(unsigned int nb)
 {
 	unsigned int		ret;
 
@@ -50,52 +44,53 @@ unsigned int		nb_len(unsigned int nb)
 	return (ret);
 }
 
-static int				fun_major(t_file	*file)
+static int				fun_m(t_file *file)
 {
 	if (file->type[0] == 'b' || file->type[0] == 'c')
 		return (nb_len(major(file->device)));
 	return (-1);
 }
 
-t_file					*fill_file_stats(t_file *file, char flag, char hidden, t_padding *padding)
+t_file					*fill_file_stats(t_file *file, char flag,
+						char hidden, t_padding *p)
 {
-	struct stat 		buffer;
+	struct stat			b;
 
-	lstat(file->file_name, &buffer);
-	fill_type(file, buffer.st_mode);
+	lstat(file->file_name, &b);
+	fill_type(file, b.st_mode);
 	if (hidden == 'a' || !(is_hidden(file->file_name)))
-		padding->nb_blocks += buffer.st_blocks;
-	padding->links = padding->links < nb_len(buffer.st_nlink) ?
-		nb_len(buffer.st_nlink) : padding->links;
-	padding->max_size = padding->max_size < nb_len(buffer.st_size) ?
-		nb_len(buffer.st_size) : padding->max_size;
-	padding->max_size = padding->max_size < nb_len(minor(buffer.st_rdev)) ?
-		nb_len(minor(buffer.st_rdev)) : padding->max_size;
-	file->perm = buffer.st_mode;
-	file->links = buffer.st_nlink;
-	file->uid = buffer.st_uid;
-	file->gid = buffer.st_gid;
-	file->device = buffer.st_rdev;
-	padding->max_major = fun_major(file) > padding->max_major ? fun_major(file) : padding->max_major;
-	file->date = flag == 0 ? buffer.st_mtimespec : buffer.st_atimespec;
-	file->size = buffer.st_size;
+		p->nb_blocks += b.st_blocks;
+	p->links = p->links < nb_len(b.st_nlink) ? nb_len(b.st_nlink) : p->links;
+	p->max_size = p->max_size < nb_len(b.st_size) ?
+		nb_len(b.st_size) : p->max_size;
+	p->max_size = p->max_size < nb_len(minor(b.st_rdev)) ?
+		nb_len(minor(b.st_rdev)) : p->max_size;
+	file->perm = b.st_mode;
+	file->links = b.st_nlink;
+	file->uid = b.st_uid;
+	file->gid = b.st_gid;
+	file->device = b.st_rdev;
+	p->max_major = fun_m(file) > p->max_major ? fun_m(file) : p->max_major;
+	file->date = flag == 0 ? b.st_mtimespec : b.st_atimespec;
+	file->size = b.st_size;
 	file->user = get_username(file->uid);
 	file->group = get_groupname(file->gid);
-	padding->user = padding->user < ft_strlen(file->user) ? 
-		ft_strlen(file->user) : padding->user;
-	padding->group = padding->group < ft_strlen(file->group) ? 
-		ft_strlen(file->group) : padding->group;
+	p->user = p->user < ft_strlen(file->user) ? ft_strlen(file->user) : p->user;
+	p->group = p->group < ft_strlen(file->group) ?
+		ft_strlen(file->group) : p->group;
 	return (file);
 }
 
-t_file_array			*fill_stats(t_file_array *files, char flag, char hidden, t_padding *padding)
+t_file_array			*fill_stats(t_file_array *files, char flag,
+						char hidden, t_padding *padding)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (i < files->size)
 	{
-		files->array[i] = fill_file_stats(files->array[i], flag, hidden, padding);
+		files->array[i] = fill_file_stats(files->array[i], flag,
+				hidden, padding);
 		i++;
 	}
 	return (files);

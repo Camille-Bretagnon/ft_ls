@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:31:14 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 14:41:34 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:38:07 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static t_file		**swap(t_file **array, int i, int j)
 {
 	t_file		*temp;
-	
+
 	temp = *(array + i);
 	*(array + i) = *(array + j);
 	*(array + j) = temp;
-	return (array);	
+	return (array);
 }
 
-static void		basic_sort(t_file **array, int size, char flag)
+static void			basic_sort(t_file **array, int size, char flag)
 {
 	int	i;
 	int	j;
@@ -33,51 +33,44 @@ static void		basic_sort(t_file **array, int size, char flag)
 		j = i + 1;
 		if (flag != 'r')
 		{
-			while (--j > 0 && (ft_strcmp(array[j]->file_name, array[j - 1]->file_name) < 0))
-				array = swap(array, j, j- 1);
+			while (--j > 0 && (ft_strcmp(array[j]->file_name,
+							array[j - 1]->file_name) < 0))
+				array = swap(array, j, j - 1);
 		}
 		else
 		{
-			while (--j > 0 && (ft_strcmp(array[j]->file_name, array[j - 1]->file_name)) > 0)
+			while (--j > 0 && (ft_strcmp(array[j]->file_name,
+							array[j - 1]->file_name)) > 0)
 				array = swap(array, j, j - 1);
 		}
 	}
 }
 
-static void		time_sort(t_file **array, int size, char flag)
+static void			time_sort(t_file **array, int size, char flag)
 {
 	int	i;
 	int	j;
 
-	i = size;
-	if (flag != 'r')
+	i = 0;
+	while (++i < size)
 	{
-		while (--i > 0)
+		j = i + 1;
+		if (flag != 'r')
 		{
-			j = -1;
-			while (++j < i)
-			{
-			   	if (difftime(array[j]->date.tv_sec, array[j + 1]->date.tv_sec) < 0)
-						array = swap(array, j, j + 1);
-			}
+			while (--j > 0 && (difftime(array[j]->date.tv_sec,
+							array[j - 1]->date.tv_sec) > 0))
+				array = swap(array, j, j - 1);
+		}
+		else
+		{
+			while (--j > 0 && (difftime(array[j]->date.tv_sec,
+							array[j - 1]->date.tv_sec)) < 0)
+				array = swap(array, j, j - 1);
 		}
 	}
-	else
-	{
-		while (--i > 0)
-		{
-			j = -1;
-			while (++j < i)
-			{
-			   	if (difftime(array[j]->date.tv_sec, array[j + 1]->date.tv_sec) > 0)
-						array = swap(array, j, j + 1);
-			}
-		}
-	}
-
 }
 
-void		sort_files(t_file **array, int size, char *flags)
+void				sort_files(t_file **array, int size, char *flags)
 {
 	if (ft_strchr(flags, 't'))
 	{

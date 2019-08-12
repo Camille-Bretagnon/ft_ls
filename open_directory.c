@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/06 14:23:35 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/12 14:48:31 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <dirent.h>
 #include <stdlib.h>
 
-static t_file_array	*push_directory(t_file_array *rec_dir, char *path, 
+static t_file_array	*push_directory(t_file_array *rec_dir, char *path,
 		char *file, char *time)
 {
 	char			*str;
@@ -36,10 +36,11 @@ static t_file_array	*push_directory(t_file_array *rec_dir, char *path,
 	stat(str, &buffer);
 	new_dir->date = time ? buffer.st_atimespec : buffer.st_mtimespec;
 	rec_dir = push_file(rec_dir, new_dir);
-	return(rec_dir);
+	return (rec_dir);
 }
 
-static t_file_array	*read_directory(struct dirent *buffer, t_file_array *files, char *directory)
+static t_file_array	*read_directory(struct dirent *buffer,
+		t_file_array *files, char *directory)
 {
 	char		*full_name;
 	int			i;
@@ -62,44 +63,48 @@ static int			print_error(void)
 	return (-1);
 }
 
+static void			recursive_call(t_file_array *rec_dir, char *flags)
+{
+	unsigned int	i;
+
+	if (rec_dir == NULL)
+		return ;
+	i = 0;
+	sort_files(rec_dir->array, rec_dir->size, flags);
+	while (i < rec_dir->size)
+	{
+		print_directory(rec_dir->array[i]->file_name);
+		open_directory(rec_dir->array[i]->file_name, flags);
+		i++;
+	}
+	delete_file_array(rec_dir);
+}
+
 int					open_directory(char *directory, char *flags)
 {
 	DIR				*dir;
 	struct dirent	*buffer;
 	t_file_array	*files;
 	t_file_array	*rec_dir;
-	unsigned int	i;
 
 	if (!(dir = opendir(directory)))
 		return (print_error());
-	if (!(files = create_file_array(BASE_ARRAY)))
-		return (-1);
+	files = create_file_array(BASE_ARRAY);
 	rec_dir = ft_strchr(flags, 'R') ? create_file_array(BASE_ARRAY) : NULL;
 	while ((buffer = readdir(dir)))
 	{
 		if (rec_dir != NULL && buffer->d_type == DT_DIR)
 		{
-			if ((buffer->d_name[0] != '.') || (ft_strchr(flags, 'a') 
-						&& buffer->d_name[1] != '\0' && buffer->d_name[1] != '.'))
-				rec_dir = push_directory(rec_dir, directory, buffer->d_name, ft_strchr(flags, 'u'));
+			if ((buffer->d_name[0] != '.') || (ft_strchr(flags, 'a')
+				&& buffer->d_name[1] != '\0' && buffer->d_name[1] != '.'))
+				rec_dir = push_directory(rec_dir, directory,
+					buffer->d_name, ft_strchr(flags, 'u'));
 		}
 		files = read_directory(buffer, files, directory);
 	}
 	write_buffer(files, flags);
 	delete_file_array(files);
 	closedir(dir);
-	i = 0;
-	if (rec_dir != NULL)
-	{
-		sort_files(rec_dir->array, rec_dir->size, flags);
-		while (i < rec_dir->size)
-		{
-			print_directory(rec_dir->array[i]->file_name);
-			open_directory(rec_dir->array[i]->file_name, flags);
-			i++;
-		}
-		delete_file_array(rec_dir);
-	}
+	recursive_call(rec_dir, flags);
 	return (0);
 }
-
