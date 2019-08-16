@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 14:11:09 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:20:01 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ t_file					*fill_file_stats(t_file *file, char flag,
 {
 	struct stat			b;
 
-	lstat(file->file_name, &b);
+	if (lstat(file->file_name, &b) == -1)
+	{
+		file->invalid = 1;
+		return (file);
+	}
 	fill_type(file, b.st_mode);
 	if (hidden == 'a' || !(is_hidden(file->file_name)))
 		p->nb_blocks += b.st_blocks;
@@ -90,7 +94,7 @@ t_file_array			*fill_stats(t_file_array *files, char flag,
 	while (i < files->size)
 	{
 		files->array[i] = fill_file_stats(files->array[i], flag,
-				hidden, padding);
+					hidden, padding);
 		i++;
 	}
 	return (files);

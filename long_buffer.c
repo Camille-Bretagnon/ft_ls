@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 16:28:55 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:14:56 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ static t_dstring		*push_fileinfos(t_file *file,
 
 static t_dstring		*short_display(t_file *path, t_dstring *to_print)
 {
-	if (path->type[0] != 'd')
+	if (path->invalid == 1)
+		inv_error(path->file_name);
+	else if (path->type[0] != 'd')
 	{
 		if (path->type[0] == 'l')
 		{
@@ -87,8 +89,13 @@ void					write_paths_infos(t_file **paths,
 	{
 		while (paths[++i])
 		{
-			if (paths[i]->type[0] != 'd')
-				to_print = push_fileinfos(paths[i], to_print, padding, 'a');
+			if (paths[i]->invalid == 1)
+				inv_error(paths[i]->file_name);
+			else
+			{
+				if (paths[i]->type[0] != 'd')
+					to_print = push_fileinfos(paths[i], to_print, padding, 'a');
+			}
 		}
 	}
 	else
@@ -120,7 +127,8 @@ void					write_long_buffer(t_file_array *files, char *flags)
 	i = 0;
 	while (i < files->size)
 	{
-		to_print = push_fileinfos(files->array[i], to_print, padding, flag);
+		if (files->array[i]->invalid == 0)
+			to_print = push_fileinfos(files->array[i], to_print, padding, flag);
 		i++;
 	}
 	if (to_print->size != 0)

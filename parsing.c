@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:01:38 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 16:29:49 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 10:36:12 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_file		*init_file_struct(char *name, char free)
 		if (!(ret->file_name = ft_strdup(name)))
 			malloc_error();
 	}
+	ret->invalid = 0;
 	ret->user = NULL;
 	ret->group = NULL;
 	return (ret);

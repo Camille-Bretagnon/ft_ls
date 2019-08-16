@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 15:53:58 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:39:10 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static t_dstring			*simple_fill(t_file_array *files,
 	i = 0;
 	while (i < files->size)
 	{
-		if (flag == 'a' || !(is_hidden(files->array[i]->file_name)))
+		if ((flag == 'a' || !(is_hidden(files->array[i]->file_name))) 
+					&& files->array[i]->invalid == 0)
 		{
 			if (files->array[i]->type[0] == 'l')
 			{
@@ -93,7 +94,6 @@ t_dstring					*push_w_padding(t_dstring *dest,
 
 void						print_directory(char *directory)
 {
-	write(1, "\n\n", 2);
 	ft_putstr(directory);
 	write(1, ":\n", 2);
 }

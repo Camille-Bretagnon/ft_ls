@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 15:09:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 16:12:40 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 10:42:24 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,11 @@ void		usage(void)
 int			not_device(char c)
 {
 	return (c != 'b' && c != 'c');
+}
+
+void		inv_error(char *file)
+{
+	write(1, "ls : ", 5);
+	ft_putstr(file);
+	write(1, ": No such file or directory", 27);
 }

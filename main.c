@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 14:27:50 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:40:07 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void			handle_dir(t_file **paths, int j,
 {
 	sort_files(paths, j, flags);
 	write_paths_infos(paths, flags, padding);
+	write(1, "\n", 1);
 	j = -1;
 	while (paths[++j])
 	{
@@ -35,6 +36,32 @@ static void			handle_dir(t_file **paths, int j,
 			open_directory(paths[j]->file_name, flags);
 			if (paths[j + 1])
 				write(1, "\n\n", 2);
+		}
+	}
+}
+
+static void			handle_symlink(t_file **paths, char *flags,
+						t_padding *padding)
+{
+	int				i;
+	char			date;
+	char			*file;
+
+	i = -1;
+	if (!(file = ft_strnew(256)))
+		malloc_error();
+	if (ft_strchr(flags, 'u'))
+		date = T_LASTACCESS;
+	else
+		date = T_MODIFIED;
+	while (paths[++i])
+	{
+		if (paths[i]->type[0] == 'l')
+		{
+			readlink(paths[i]->file_name, file, 256);
+			ft_strdel(&paths[i]->file_name);
+			paths[i]->file_name = file;
+			paths[i] = fill_file_stats(paths[i], date, 'a', padding);
 		}
 	}
 }
@@ -58,11 +85,12 @@ int					main(int argc, char **argv)
 				T_LASTACCESS, h(flags), padding)
 			: fill_file_stats(paths[i], T_MODIFIED, h(flags), padding);
 	}
+	if (!(ft_strchr(flags, 'l')))
+		handle_symlink(paths, flags, padding);
 	if (i == 1 && paths[0]->file_name[0] == '.')
 		open_directory(paths[0]->file_name, flags);
 	else
 		handle_dir(paths, i, flags, padding);
-	write(1, "\n", 1);
 	delete_simple_file_struct_array(paths);
 	ft_strdel(&flags);
 	delete_padding(padding);

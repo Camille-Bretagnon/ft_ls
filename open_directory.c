@@ -6,15 +6,11 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 14:48:31 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 12:40:08 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/libft.h"
 #include "ft_ls.h"
-#include <stdio.h>
-#include <dirent.h>
-#include <stdlib.h>
 
 static t_file_array	*push_directory(t_file_array *rec_dir, char *path,
 		char *file, char *time)
@@ -76,6 +72,8 @@ static void			recursive_call(t_file_array *rec_dir, char *flags)
 		print_directory(rec_dir->array[i]->file_name);
 		open_directory(rec_dir->array[i]->file_name, flags);
 		i++;
+		if (i < rec_dir->size)
+			write(1, "\n\n", 2);
 	}
 	delete_file_array(rec_dir);
 }
@@ -106,5 +104,6 @@ int					open_directory(char *directory, char *flags)
 	delete_file_array(files);
 	closedir(dir);
 	recursive_call(rec_dir, flags);
+	write(1, "\n", 1);
 	return (0);
 }

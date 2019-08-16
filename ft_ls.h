@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 16:12:58 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 10:44:11 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <pwd.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <dirent.h>
+# include <stdio.h>
 # include "./libft/libft.h"
 # include "dynamic.h"
 
@@ -33,6 +35,7 @@
 typedef struct	s_file
 {
 	char			*file_name;
+	char			invalid;
 	char			*type;
 	mode_t			perm;
 	nlink_t			links;
@@ -70,4 +73,5 @@ void			print_directory(char *directory);
 
 unsigned int	nb_len(unsigned int nb);
 int				not_device(char c);
+void			inv_error(char *file);
 #endif
