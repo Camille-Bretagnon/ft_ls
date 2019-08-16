@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 14:30:50 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 13:10:38 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 14:26:13 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void						write_buffer(t_file_array *files, char *flags)
 	}
 	sort_files(files->array, files->size, flags);
 	simple_fill(files, buffer, flag);
-	write(1, buffer->str, buffer->size - 1);
+	write(1, buffer->str, buffer->size);
 	delete_file_array(files);
 }
 

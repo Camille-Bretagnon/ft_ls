@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 13:07:07 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 14:34:36 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void			recursive_call(t_file_array *rec_dir, char *flags)
 {
 	unsigned int	i;
 
-	if (rec_dir == NULL)
+	write(1, "\n", 1);
+	if (rec_dir == NULL || rec_dir->array[0] == NULL)
 		return ;
 	i = 0;
 	sort_files(rec_dir->array, rec_dir->size, flags);
@@ -72,8 +73,6 @@ static void			recursive_call(t_file_array *rec_dir, char *flags)
 		print_directory(rec_dir->array[i]->file_name);
 		open_directory(rec_dir->array[i]->file_name, flags);
 		i++;
-		if (i < rec_dir->size)
-			write(1, "\n\n", 2);
 	}
 	delete_file_array(rec_dir);
 }
@@ -103,6 +102,5 @@ int					open_directory(char *directory, char *flags)
 	write_buffer(files, flags);
 	closedir(dir);
 	recursive_call(rec_dir, flags);
-	write(1, "\n", 1);
 	return (0);
 }

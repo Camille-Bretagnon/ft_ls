@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 13:08:14 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 14:26:51 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void					write_paths_infos(t_file **paths,
 			to_print = short_display(paths[i], to_print);
 	}
 	if (to_print->size != 0)
-		write(1, to_print->str, to_print->size - 1);
+		write(1, to_print->str, to_print->size);
 	delete_dstring(to_print);
 }
 
@@ -130,7 +130,7 @@ void					write_long_buffer(t_file_array *files, char *flags)
 		i++;
 	}
 	if (to_print->size != 0)
-		write(1, to_print->str, to_print->size - 1);
+		write(1, to_print->str, to_print->size);
 	delete_padding(padding);
 	delete_dstring(to_print);
 }

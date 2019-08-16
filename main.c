@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 13:09:12 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 14:37:31 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,24 @@ static void			handle_dir(t_file **paths, int j,
 {
 	sort_files(paths, j, flags);
 	write_paths_infos(paths, flags, padding, -1);
-	write(1, "\n", 1);
 	j = -1;
 	while (paths[++j])
+	{
+		if (paths[j]->type[0] == 'd')
+		{
+			write(1, "\n", 1);
+			break ;
+		}
+	}
+	while (paths[j])
 	{
 		if (paths[j]->type[0] == 'd')
 		{
 			ft_putstr(paths[j]->file_name);
 			write(1, ":\n", 2);
 			open_directory(paths[j]->file_name, flags);
-			if (paths[j + 1])
-				write(1, "\n\n", 2);
 		}
+		j++;
 	}
 }
 
@@ -88,7 +94,7 @@ int					main(int argc, char **argv)
 			: fill_file_stats(paths[i], T_MODIFIED, h(flags), padding);
 	}
 	handle_symlink(paths, flags, padding);
-	if (i == 1 && paths[0]->file_name[0] == '.')
+	if (i == 1 && paths[0]->type[0] == 'd')
 		open_directory(paths[0]->file_name, flags);
 	else
 		handle_dir(paths, i, flags, padding);
