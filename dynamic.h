@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/12 16:29:22 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 13:09:28 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ t_dstring			*push_minor(t_dstring *dest,
 							struct s_file *file, int padding);
 
 void				write_paths_infos(struct s_file **paths,
-					char *flags, t_padding *padding);
+					char *flags, t_padding *padding, int i);
 #endif

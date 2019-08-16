@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 13:43:57 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 12:14:56 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 13:08:14 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,10 @@ static t_dstring		*short_display(t_file *path, t_dstring *to_print)
 }
 
 void					write_paths_infos(t_file **paths,
-						char *flags, t_padding *padding)
+						char *flags, t_padding *padding, int i)
 {
 	t_dstring			*to_print;
-	int					i;
 
-	i = -1;
 	to_print = create_dstring(BUFFER_SIZE, "");
 	if (ft_strchr(flags, 'l'))
 	{

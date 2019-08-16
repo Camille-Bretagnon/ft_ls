@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:45:39 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 12:20:01 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 13:02:45 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,21 @@ void					fill_type(t_file *to_fill, mode_t mode)
 		to_fill->type[0] = 'b';
 }
 
-unsigned int			nb_len(unsigned int nb)
-{
-	unsigned int		ret;
-
-	ret = 0;
-	while (nb != 0)
-	{
-		nb /= 10;
-		ret++;
-	}
-	return (ret);
-}
-
 static int				fun_m(t_file *file)
 {
 	if (file->type[0] == 'b' || file->type[0] == 'c')
 		return (nb_len(major(file->device)));
 	return (-1);
+}
+
+static t_file			*half_fill(t_file *file, struct stat b)
+{
+	file->perm = b.st_mode;
+	file->links = b.st_nlink;
+	file->uid = b.st_uid;
+	file->gid = b.st_gid;
+	file->device = b.st_rdev;
+	return (file);
 }
 
 t_file					*fill_file_stats(t_file *file, char flag,
@@ -69,11 +66,7 @@ t_file					*fill_file_stats(t_file *file, char flag,
 		nb_len(b.st_size) : p->max_size;
 	p->max_size = p->max_size < nb_len(minor(b.st_rdev)) ?
 		nb_len(minor(b.st_rdev)) : p->max_size;
-	file->perm = b.st_mode;
-	file->links = b.st_nlink;
-	file->uid = b.st_uid;
-	file->gid = b.st_gid;
-	file->device = b.st_rdev;
+	file = half_fill(file, b);
 	p->max_major = fun_m(file) > p->max_major ? fun_m(file) : p->max_major;
 	file->date = flag == 0 ? b.st_mtimespec : b.st_atimespec;
 	file->size = b.st_size;

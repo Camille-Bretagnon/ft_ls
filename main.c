@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 16:12:02 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 12:40:07 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 13:09:12 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void			handle_dir(t_file **paths, int j,
 					char *flags, t_padding *padding)
 {
 	sort_files(paths, j, flags);
-	write_paths_infos(paths, flags, padding);
+	write_paths_infos(paths, flags, padding, -1);
 	write(1, "\n", 1);
 	j = -1;
 	while (paths[++j])
@@ -47,6 +47,8 @@ static void			handle_symlink(t_file **paths, char *flags,
 	char			date;
 	char			*file;
 
+	if (ft_strchr(flags, 'l'))
+		return ;
 	i = -1;
 	if (!(file = ft_strnew(256)))
 		malloc_error();
@@ -85,8 +87,7 @@ int					main(int argc, char **argv)
 				T_LASTACCESS, h(flags), padding)
 			: fill_file_stats(paths[i], T_MODIFIED, h(flags), padding);
 	}
-	if (!(ft_strchr(flags, 'l')))
-		handle_symlink(paths, flags, padding);
+	handle_symlink(paths, flags, padding);
 	if (i == 1 && paths[0]->file_name[0] == '.')
 		open_directory(paths[0]->file_name, flags);
 	else

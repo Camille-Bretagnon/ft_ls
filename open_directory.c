@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 19:32:04 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 12:40:08 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/16 13:07:07 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int					open_directory(char *directory, char *flags)
 		files = read_directory(buffer, files, directory);
 	}
 	write_buffer(files, flags);
-	delete_file_array(files);
 	closedir(dir);
 	recursive_call(rec_dir, flags);
 	write(1, "\n", 1);
