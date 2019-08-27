@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 15:47:18 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 10:44:11 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/27 11:16:18 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,6 @@ void			print_directory(char *directory);
 unsigned int	nb_len(unsigned int nb);
 int				not_device(char c);
 void			inv_error(char *file);
+void			add_slash(char *file_name);
+
 #endif

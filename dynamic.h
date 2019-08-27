@@ -6,7 +6,7 @@
 /*   By: cbretagn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:00:58 by cbretagn          #+#    #+#             */
-/*   Updated: 2019/08/16 13:09:28 by cbretagn         ###   ########.fr       */
+/*   Updated: 2019/08/27 10:51:23 by cbretagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define BASE_CAP 	256
 # define BASE_ARRAY	256
-# define BUFFER_SIZE 4096
+# define BUFFER_SIZE 1000
 
 # include "ft_ls.h"
 
